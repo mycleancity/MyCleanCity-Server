@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="${_response_encoding}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Gorgeous">
+    <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+
+    <title>500</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="@{'/public/BucketAdmin/bs3/css/bootstrap.min.css'}" rel="stylesheet">
+    <link href="@{'/public/BucketAdmin/css/bootstrap-reset.css'}" rel="stylesheet">
+    <link href="@{'/public/BucketAdmin/font-awesome/css/font-awesome.css'}" rel="stylesheet" />
+    <link href="@{'/public/BucketAdmin/css/green-theme.css'}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="@{'/public/BucketAdmin/css/style.css'}" rel="stylesheet">
+    <link href="@{'/public/BucketAdmin/css/style-responsive.css'}" rel="stylesheet" />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+
+
+
+  <body class="body-500">
+
+    <div class="error-head"> </div>
+
+    <div class="container ">
+
+      <section class="error-wrapper text-center">
+          <h1><img src="@{'/public/BucketAdmin/images/500.png'}" alt=""></h1>
+          <div class="error-desk">
+              <h2>OOOPS!!!</h2>
+              #{if exception instanceof play.exceptions.PlayException}
+	        	#{if exception instanceof models.Faulty}
+				<p>${exception.code}: ${exception?.message}</p>
+				#{/if}
+			  	#{else}
+				<p>${exception}</p>
+				#{/else}
+	          #{/if}
+	          #{else}
+	          	<p class="nrml-txt-alt">Something went wrong.</p>
+        	  #{/else}
+          </div>
+          <a href="#" onclick="history.go(-1); return false;" class="back-btn"><i class="fa fa-home"></i> Go Back</a>
+      </section>
+
+    </div>
+
+
+  </body>
+</html>

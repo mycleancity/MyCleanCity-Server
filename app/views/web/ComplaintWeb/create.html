@@ -1,0 +1,320 @@
+#{extends 'main.html' /}
+#{set title:'Submit Resident Complaint' /}
+#{set 'moreStyles'}
+
+  <style type="text/css">
+    #map-canvas {
+      height: 400px;
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #map-canvas img {
+      max-width: none !important;
+    }
+
+    .controls {
+      margin-top: 16px;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      height: 32px;
+      outline: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    #address {
+      background-color: #fff;
+      font-size: 15px;
+      font-weight: 300;
+      margin-left: 12px;
+      margin-top: 40px;
+      padding: 0 11px 0 13px;
+      text-overflow: ellipsis;
+      width: 80%;
+    }
+
+    #address:focus {
+      border-color: #4d90fe;
+    }
+  </style>
+#{/set}
+#{set 'moreScripts'}
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&libraries=places"></script>
+<script>
+
+function initialize() {
+  var mapOptions = {
+    center: new google.maps.LatLng(-33.8688, 151.2195),
+    zoom: 13
+  };
+  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  var types = document.getElementById('type-selector');
+  var input = /** @type {HTMLInputElement} */(document.getElementById('address'));
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+
+  var options = {componentRestrictions: {country: 'my'}};
+  var autocomplete = new google.maps.places.Autocomplete(input, options);
+  autocomplete.bindTo('bounds', map);
+
+  var infowindow = new google.maps.InfoWindow();
+  var marker = new google.maps.Marker({
+    map: map,
+    anchorPoint: new google.maps.Point(0, -29)
+  });
+
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    infowindow.close();
+    marker.setVisible(false);
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);  // Why 17? Because it looks good.
+    }
+    marker.setIcon(/** @type {google.maps.Icon} */({
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(35, 35)
+    }));
+    marker.setPosition(place.geometry.location);
+    marker.setVisible(true);
+
+    var address = '';
+    if (place.address_components) {
+      address = [
+        (place.address_components[0] && place.address_components[0].short_name || ''),
+        (place.address_components[1] && place.address_components[1].short_name || ''),
+        (place.address_components[2] && place.address_components[2].short_name || '')
+      ].join(' ');
+    }
+
+    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+    infowindow.open(map, marker);
+
+    codeLatLng(place.geometry.location.lat(),place.geometry.location.lng());
+  });
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+  
+// var map, autocomplete, infowindow;
+// function initialize() {
+
+//   var mapOptions = {
+//     center: new google.maps.LatLng(3.077437697051221, 101.63040161132812),
+//     zoom: 13
+//   };
+//   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+//   if(navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(function(position) {
+//       var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+//       infowindow = new google.maps.InfoWindow({
+//         map: map,
+//         position: pos,  
+//         content: 'Your Location'
+//       });
+//       map.setCenter(pos);
+//       document.getElementById('long').value = position.coords.longitude;
+//       document.getElementById('lat').value = position.coords.latitude;
+//       codeLatLng(position.coords.latitude,position.coords.longitude);
+
+//       var input = document.getElementById('address');
+//       var options = {componentRestrictions: {country: 'my'}};
+//       autocomplete = new google.maps.places.Autocomplete(input, options);
+//       autocomplete.bindTo('bounds', map);
+//     }, function() {
+//       handleNoGeolocation(true);
+//     });
+
+//   } else {
+//     var input = document.getElementById('address');
+//     var options = {componentRestrictions: {country: 'my'}};
+//     autocomplete = new google.maps.places.Autocomplete(input, options);
+//     autocomplete.bindTo('bounds', map);
+//     handleNoGeolocation(false);
+//   }
+
+//   google.maps.event.addListener(autocomplete, 'place_changed', function() {
+//     alert('Map Changed');
+//     infowindow.close();
+//     marker.setVisible(false);
+//     var place = autocomplete.getPlace();
+//     if (!place.geometry) {
+//       return;
+//     }
+
+//     // If the place has a geometry, then present it on a map.
+//     if (place.geometry.viewport) {
+//       map.fitBounds(place.geometry.viewport);
+//     } else {
+//       map.setCenter(place.geometry.location);
+//       map.setZoom(17);  // Why 17? Because it looks good.
+//     }
+//     marker.setIcon(/** @type {google.maps.Icon} */({
+//       url: place.icon,
+//       size: new google.maps.Size(71, 71),
+//       origin: new google.maps.Point(0, 0),
+//       anchor: new google.maps.Point(17, 34),
+//       scaledSize: new google.maps.Size(35, 35)
+//     }));
+//     marker.setPosition(place.geometry.location);
+//     marker.setVisible(true);
+
+//     var address = '';
+//     if (place.address_components) {
+//       address = [
+//         (place.address_components[0] && place.address_components[0].short_name || ''),
+//         (place.address_components[1] && place.address_components[1].short_name || ''),
+//         (place.address_components[2] && place.address_components[2].short_name || '')
+//       ].join(' ');
+//     }
+
+//     infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+//     infowindow.open(map, marker);
+//   });
+// } 
+  
+// function handleNoGeolocation(errorFlag) {
+//   if (errorFlag) {
+//     var content = 'Error: The Geolocation service failed.';
+//   } else {
+//     var content = 'Error: Your browser doesn\'t support geolocation.';
+//   }
+
+//   var options = {
+//     map: map,
+//     position: new google.maps.LatLng(60, 105),
+//     content: content
+//   };
+
+//   var infowindow = new google.maps.InfoWindow(options);
+//   map.setCenter(options.position);
+// }
+    
+function codeLatLng(lat, lng) {
+  var geocoder;
+  document.getElementById('longitude').value = lng;
+  document.getElementById('latitude').value = lat;
+  geocoder = new google.maps.Geocoder();
+  var latlng = new google.maps.LatLng(lat, lng);
+  geocoder.geocode({'latLng': latlng}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+    console.log(results)
+      if (results[1]) {
+        for (var i=0; i<results[0].address_components.length; i++) {
+          for (var b=0;b<results[0].address_components[i].types.length;b++) {
+              if (results[0].address_components[i].types[b] == "sublocality") {
+                  city= results[0].address_components[i];
+                  break;
+              }
+          }
+        }
+        // document.getElementById('address').value =  results[0].formatted_address;
+        document.getElementById('zone').value =  city.long_name;
+      } else {
+        alert("No results found");
+      }
+    } else {
+      alert("Geocoder failed due to: " + status);
+    }
+  });
+} 
+
+function validateForm() {
+    var lat = document.getElementById('longitude').value;
+    var lng = document.getElementById('latitude').value;
+
+    if (lat == null || lat == "" || lng == null || lng == "") {
+        alert("Please select an address");
+        return false;
+    }
+}
+
+</script>
+#{/set}
+<div class="container_12">
+  <div class="how-it-work">
+    <div class="grid_12 short-introduce">
+      <h3 class="rs title"><span class="fc-black">Submit</span> Resident Complaint</h3>
+      <div class="box-introduce">
+        <div class="form form-profile">
+          <form action="@{web.ComplaintWeb.create()}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <div class="row-item clearfix">
+              <label class="lbl" for="name">Name:</label>
+              <div class="val">
+                <input class="txt" type="text" id="name" name="name" required>
+              </div>
+            </div>
+            <div class="row-item clearfix">
+              <label class="lbl" for="email">Email:</label>
+              <div class="val">
+                <input class="txt" type="email" id="email" name="email" required>
+              </div>
+            </div>
+            <div class="row-item clearfix">
+              <label class="lbl" for="mobile">Mobile:</label>
+              <div class="val">
+                <input class="txt" type="text" id="mobile" name="mobile" required>
+              </div>
+            </div>
+            <div class="row-item clearfix">
+              <label class="lbl" for="category">Category:</label>
+              <div class="val">
+                #{select 'category', items:categories, valueProperty:'id', labelProperty:'name', value:category, class:'txt select'/}
+              </div>
+            </div>
+            <div class="row-item clearfix">
+              <label class="lbl" for="title">Title:</label>
+              <div class="val">
+                <input class="txt" type="text" id="title" name="title" required>
+              </div>
+            </div>
+            <div class="row-item clearfix">
+              <label class="lbl" for="description">Description:</label>
+              <div class="val">
+                <textarea class="txt fill-width" name="description" id="description" cols="30" rows="10" required></textarea>
+                <p class="rs description-input">We suggest a short description. If it’s 300 characters or less it’ll look great.</p>
+              </div>
+            </div>
+            <div class="row-item clearfix">
+              <label class="lbl" for="photo">Photo:</label>
+              <div class="val">
+                <input class="txt" type="file" id="photo" name="photo" required>
+              </div>
+            </div>
+            <!-- <div class="row-item clearfix">
+              <label class="lbl" for="zone">Residential Zone:</label>
+              <div class="val">
+                <input class="txt" type="text" id="zone">
+              </div>
+            </div> -->
+            <div class="row-item clearfix">
+              <label class="lbl" for="address">Address:</label>
+              <div class="val">
+                <input id="address" name="address" class="controls" type="text" placeholder="Enter a location" required>
+                <div id="map-canvas"></div>
+              </div>
+              <input type="text" id="longitude" name="longitude" readonly hidden></input>
+              <input type="text" id="latitude" name="latitude" readonly hidden></input>
+            </div>
+            <p class="wrap-btn-submit rs ta-r">
+              <button class="btn btn-red btn-submit-all">Submit</button>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>

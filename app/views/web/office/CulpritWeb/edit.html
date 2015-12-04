@@ -1,0 +1,131 @@
+#{extends 'office.html' /}
+#{set title:'Culprit' /}
+
+<div class="row">
+	<div class="col-sm-12">
+	    <section class="panel">
+	        <header class="panel-heading">
+	            Edit Culprit
+	        </header>
+	        <div class="panel-body">
+	            #{form @web.office.CulpritWeb.update(), method:'POST', class:'form-horizontal bucket-form cmxform', id:'update-form'}
+	              <input type="hidden" name="id" value="${culprit.id}">
+	              <div class="form-group">
+                      <label class="col-lg-3 control-label">YoutubeLink</label>
+                      <div class="col-lg-8">
+                          <input type="text" class="form-control" name="youtubeLink" id="youtubeLink" value="${culprit.youtubeLink}" required>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Description</label>
+                      <div class="col-lg-8">
+                          <textarea class="form-control" rows="6" name="description" id="description" required>${culprit.story}</textarea>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Category</label>
+                      <div class="col-lg-8">
+                      	  #{if culprit.status == 0}
+                      	  	#{select 'category', items:categories, valueProperty:'id', labelProperty:'name', value:culprit.category?.id, class:'form-control input-sm m-bot15' /}
+                      	  #{/if}
+                      	  #{else}
+                      	  	#{select 'category', items:categories, valueProperty:'id', labelProperty:'name', value:culprit.category?.id, class:'form-control input-sm m-bot15', disabled:true /}
+                      	  #{/else}
+                      </div>
+                  </div>
+                  <div class="form-group">
+	                  <label class="col-sm-3 control-label">Contact Name</label>
+	                  <div class="col-sm-8">
+	                  	<input type="text" class="form-control" name="contactName" id="contactName" value="${culprit.contactName}" required>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Contact Email</label>
+	                  <div class="col-sm-8">
+	                  	<input type="email" class="form-control" name="contactEmail" id="contactEmail" value="${culprit.contactEmail}" required>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Contact No</label>
+	                  <div class="col-sm-8">
+	                  	<input type="text" class="form-control" name="contactNo" id="contactNo" value="${culprit.contactNo}" required>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Address</label>
+	                  <div class="col-sm-8">
+	                  	<textarea class="form-control" rows="6" name="address" id="address" required>${culprit.address}</textarea>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <div class="col-lg-offset-3 col-lg-8">
+	                      <button type="submit" class="btn btn-info">Update</button>
+	                  </div>
+	              </div>
+	            #{/form}
+	        </div>
+	    </section>
+	</div>
+</div>
+
+#{set 'moreScripts'}
+<script src="@{'/public/BucketAdmin/js/jquery.validate.min.js'}"></script>
+    <script>
+      var Script = function () {
+
+        $().ready(function() {
+          // validate signin form on keyup and submit
+          $("#update-form").validate({
+              rules: {
+                  youtubeLink: {
+                      required: true
+                  },
+                  description: {
+                      required: true
+                  },
+                  category: {
+                      required: true
+                  },
+                  contactName: {
+                      required: true
+                  },
+                  contactEmail: {
+                      required: true,
+                      email: true
+                  },
+                  contactNo: {
+                      required: true
+                  },
+                  address: {
+                      required: true
+                  }
+              },
+              messages: {
+              	  youtubeLink: {
+                      required: "Please enter a youtube link"
+                  },
+                  description: {
+                      required: "Please enter a description"
+                  },
+                  category: {
+                      required: "Please select a category"
+                  },
+                  contactName: {
+                      required: "Please enter a contact name"
+                  },
+                  contactEmail: {
+                      required: "Please enter an email",
+                      email: "Please enter a valid email address"
+                  },
+                  contactNo: {
+                      required: "Please enter a contact no"
+                  },
+                  address: {
+                      required: "Please enter an address"
+                  }
+              }
+          });
+        });
+      }();
+    </script>
+#{/set}

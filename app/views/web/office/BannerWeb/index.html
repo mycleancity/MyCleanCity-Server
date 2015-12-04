@@ -1,0 +1,89 @@
+#{extends 'office.html' /}
+#{set title:'Banner' /}
+
+<div class="row">
+    <div class="col-sm-6">
+	    <section class="panel">
+	        <header class="panel-heading">
+	            Banner
+	        </header>
+	        <div class="panel-body">
+	        	#{form @web.office.BannerWeb.create(), method:'POST', class:'form-horizontal bucket-form cmxform', id:'form', enctype:'multipart/form-data'}
+	              <input type="hidden" name="id" value="${banner?.id}">
+	              <div class="form-group">
+                      <label class="col-lg-3 control-label">Photo</label>
+                      <div class="col-lg-8">
+                        <input type="file" class="form-control" name="photo" id="photo" >
+                        <p class="help-block">Recommended Size 1200 * 410</p>
+                        #{if banner?.id}
+                    	<p class="help-block"><img width="100" src="${banner?.photo?.url('200')}"></p>
+                    	#{/if}
+                      </div>
+                  </div>
+	              <div class="form-group">
+                      <div class="col-lg-offset-3 col-lg-8">
+                      	  #{if banner?.id}
+                          	<button type="submit" class="btn btn-info">Update</button>
+                          	<a href="@{web.office.BannerWeb.delete(banner.id)}" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-danger">Delete</a>
+                          #{/if}
+	                      #{else}
+						    <button type="submit" class="btn btn-info">Create</button>
+						  #{/else}
+                      </div>
+                  </div>
+	            #{/form}
+	        </div>
+	    </section>
+	</div>
+    <div class="col-sm-6">
+        <section class="panel">
+            <header class="panel-heading">
+                Banners
+            </header>
+            <div class="panel-body">
+                <section id="no-more-tables">
+                    <table class="table table-hover general-table table-condensed cf">
+                        <thead class="cf">
+                        <tr>
+                            <th>#</th>
+                            <th>Banner</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #{paginate.list items:banners, as:'o' }
+                        <tr class="clickable" onclick="document.location ='@{web.office.BannerWeb.index(o?.id)}';">
+                            <td data-title="#">${o_index}</td>
+                            <td data-title="Banner"><img width="50" src="${o?.photo?.url('100')}"></td>
+                        </tr>
+                        #{/paginate.list}
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </section>
+    </div>
+</div>
+
+#{set 'moreScripts'}
+<script src="@{'/public/BucketAdmin/js/jquery.validate.min.js'}"></script>
+    <script>
+      var Script = function () {
+
+        $().ready(function() {
+          // validate signin form on keyup and submit
+          $("#form").validate({
+              rules: {
+                  photo: {
+                      required: true
+                  }
+              },
+              messages: {
+                  photo: {
+                      required: "Please upload a photo"
+                  }
+              }
+          });
+        });
+      }();
+    </script>
+#{/set}

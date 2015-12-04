@@ -1,0 +1,126 @@
+#{extends 'office.html' /}
+#{set title:'Complaint' /}
+
+<div class="row">
+	<div class="col-sm-12">
+	    <section class="panel">
+	        <header class="panel-heading">
+	            Complaint
+	        </header>
+	        <div class="panel-body">
+	            #{form @web.office.ComplaintWeb.get(1), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+	              <input type="hidden" name="id" value="${complaint.id}">
+	              <div class="form-group">
+	                  <label class="col-lg-3 control-label">Photo</label>
+	                  <div class="col-lg-8">
+	                      <div class="control-label text-left">
+	                      	<img width="300" src="${complaint.photo.url('600')}">
+	                      </div>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Title</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${complaint.caption}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Description</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${complaint.story}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Category</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${complaint.category.name}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Status</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${complaint.departmentStatusDisplay}</p>
+	                  </div>
+	              </div>
+	              #{if complaint.status == 3}
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Invalid Reason</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${complaint.invalidReason}</p>
+	                  </div>
+	              </div>
+	              #{/if}
+	              #{if complaint.status == 1}
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">SLA</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">
+                        	${complaint.slaAcceptLeftoverDays}/${complaint.slaAcceptDays} days left
+	                  	</p>
+	                  </div>
+	              </div>
+	              #{/if}
+	              #{if complaint.status == 2}
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">SLA</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">
+                        	${complaint.slaProceedLeftoverDays}/${complaint.slaProceedDays} days left
+	                  	</p>
+	                  </div>
+	              </div>
+	              #{/if}
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Date</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${complaint.log.createdAt.format('hh:mm a, dd MMM yyyy')}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Contact Name</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${complaint.contactName}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Contact Email</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${complaint.contactEmail}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Contact No</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${complaint.contactNo}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Address</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${complaint.address}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Map</label>
+	                  <div class="col-sm-8">
+	                  	<div class="control-label text-left">
+	                      	<img width="400" src="https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=800x800&maptype=roadmap&markers=color:red%7Clabel:S%7C${complaint.location.x},${complaint.location.y}">
+	                    </div>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <div class="col-sm-offset-3 col-sm-8">
+	                  	#{if complaint.status == 1}
+	                  		<a href="@{web.office.DepartmentComplaintWeb.proceed(complaint.id)}" class="btn btn-info">Proceed</a>
+	                  		<a href="@{web.office.DepartmentComplaintWeb.invalid(complaint.id)}" class="btn btn-danger">Invalid</a>
+	                  	#{/if}
+	                  	#{elseif complaint.status == 2}
+	                  		<a href="@{web.office.DepartmentComplaintWeb.resolve(complaint.id)}" onclick="return confirm('Are you sure you want to resolve this item?');" class="btn btn-info">Resolve</a>  
+	                  	#{/elseif}
+	                  </div>
+	              </div>
+	            #{/form}
+	        </div>
+	    </section>
+	</div>
+</div>

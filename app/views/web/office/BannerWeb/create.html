@@ -1,0 +1,90 @@
+#{extends 'office.html' /}
+#{set title:'User' /}
+
+<div class="row">
+    <div class="col-sm-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Create User
+            </header>
+            <div class="panel-body">
+                #{form @web.office.UserWeb.create(), method:'POST', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Email</label>
+                      <div class="col-lg-8">
+                          <input type="email" class="form-control" name="email" id="email" required>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Name</label>
+                      <div class="col-lg-8">
+                          <input type="text" class="form-control" name="name" id="name" required>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Password</label>
+                      <div class="col-lg-8">
+                          <input type="password" class="form-control" name="password" id="password" required>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Role</label>
+                      <div class="col-lg-8">
+                          <select class="form-control input-sm m-bot15" name="role">
+                          	<option value="Admin">Admin</option>
+                          	<option value="Officer">Department Officer</option>
+                          	<option value="Officer_Head">Head of Department</option>
+                          	<option value="Councillor">Councillor</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="col-lg-offset-3 col-lg-8">
+                          <button type="submit" class="btn btn-info">Create</button>
+                      </div>
+                  </div>
+                #{/form}
+            </div>
+        </section>
+    </div>
+</div>
+
+#{set 'moreScripts'}
+<script src="@{'/public/BucketAdmin/js/jquery.validate.min.js'}"></script>
+    <script>
+      var Script = function () {
+
+        $().ready(function() {
+          // validate signin form on keyup and submit
+          $("#create-form").validate({
+              rules: {
+                  email: {
+                      required: true,
+                      email: true
+                  },
+                  name: {
+                      required: true
+                  },
+                  password: {
+                      required: true,
+                      minlength: 4
+                  }
+              },
+              messages: {
+                  email: {
+                      required: "Please enter an email",
+                      email: "Please enter a valid email address"
+                  },
+                  name: {
+                      required: "Please enter a name"
+                  },
+                  password: {
+                      required: "Please provide a password",
+                      minlength: "Your password must be at least 4 characters long"
+                  }
+              }
+          });
+        });
+      }();
+    </script>
+#{/set}

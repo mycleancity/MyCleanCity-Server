@@ -1,0 +1,93 @@
+#{extends 'main.html' /}
+#{set title:'Setup' /}
+
+<div class="row">
+    <div class="col-sm-6">
+     	<section class="panel">
+		    <header class="panel-heading">
+		        Facebook
+		    </header>
+		    <div class="panel-body">
+		    	#{if artist.facebookConfigured}
+		    	<a href="@{Facebook.unregister(artist.key)}" class="text-primary">
+			        <div class="mini-stat clearfix">
+			            <span class="mini-stat-icon orange"><i class="fa fa-facebook-square"></i></span>
+			            <div class="mini-stat-info">
+			                <span>Click To UnSubscribe</span>
+			                ${artist.facebookURL}
+			            </div>
+			        </div>
+		        </a>
+		        #{/if}
+		        #{else}
+		       	<a href="@{Facebook.register(artist.key)}" class="text-body">
+			        <div class="mini-stat clearfix">
+			            <span class="mini-stat-icon orange"><i class="fa fa-facebook-square"></i></span>
+			            <div class="mini-stat-info">
+			                <span>Click To Subscribe</span>
+			                ${artist.facebookURL}
+			            </div>
+			        </div>
+		        </a>
+		        #{/else}
+		    </div>
+		</section>  
+    </div>
+    <div class="col-sm-6">
+     	<section class="panel">
+		    <header class="panel-heading">
+		        Instagram
+		    </header>
+		    <div class="panel-body">
+		    	#{if artist.instagramConfigured}
+		    	<a href="@{Instagram.register(artist.key)}" class="text-primary">
+			        <div class="mini-stat clearfix">
+			            <span class="mini-stat-icon orange"><i class="fa fa-instagram"></i></span>
+			            <div class="mini-stat-info">
+			                <span>Click To UnSubscribe</span>
+			                ${artist.instagramURL}
+			            </div>
+			        </div>
+		        </a>
+		        #{/if}
+		        #{else}
+		       	<a href="@{Instagram.register(artist.key)}" class="text-body">
+			        <div class="mini-stat clearfix">
+			            <span class="mini-stat-icon orange"><i class="fa fa-instagram"></i></span>
+			            <div class="mini-stat-info">
+			                <span>Click To Subscribe</span>
+			                ${artist.instagramURL}
+			            </div>
+			        </div>
+		        </a>
+		        #{/else}
+		    </div>
+		</section>  
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+     	<section class="panel">
+		    <header class="panel-heading">
+		        Splash Screen
+		    </header>
+		    <div class="panel-body">
+		    	#{form @web.SetupWeb.updateSplash(), method:'POST', class:'form-horizontal bucket-form cmxform', id:'update-form', enctype:'multipart/form-data'}
+	              <input type="hidden" name="id" value="${artist.id}">
+	              <div class="form-group">
+                      <div class="col-lg-8">
+                        <input type="file" class="form-control" name="splash" id="splash">
+                        <p class="help-block">Recommended Size 2208 x 1242</p>
+                    	<p class="help-block"><img width="100" src="${artist.splash.url('200')}"></p>
+                      </div>
+                  </div>
+	              <div class="form-group">
+	                  <div class="col-lg-8">
+	                      <button type="submit" class="btn btn-info">Update</button>
+	                  </div>
+	              </div>
+	            #{/form}
+		    </div>
+		</section>  
+    </div>
+</div>

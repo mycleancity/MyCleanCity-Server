@@ -1,0 +1,46 @@
+<project name="MyCleanCity" basedir=".." default="main">
+
+    <property name="app.name" value="MyCleanCity"/>
+    <property name="build.dir" value="build"/>
+	<property name="app.dir" value="${build.dir}/${app.name}"/>
+	
+	<target name="clean">
+	    <delete dir="${build.dir}"/>
+	</target>
+
+	<target name="package-max" depends="clean">
+	    <mkdir dir="${build.dir}"/>
+	    <mkdir dir="${app.dir}"/>
+	    <mkdir dir="${app.dir}/app"/>
+	    <mkdir dir="${app.dir}/conf"/>
+	    <mkdir dir="${app.dir}/lib"/>
+	    <mkdir dir="${app.dir}/public"/>
+	    <mkdir dir="${app.dir}/resources"/>
+	    
+	    <copy todir="${app.dir}/app" ><fileset dir="app"/></copy>
+ 		<copy todir="${app.dir}/conf" ><fileset dir="conf"/></copy>
+ 		<copy todir="${app.dir}/lib" ><fileset dir="lib"/></copy>
+ 		<copy todir="${app.dir}/public" ><fileset dir="public"/></copy>
+ 		<copy todir="${app.dir}/resources" ><fileset dir="resources"/></copy>
+ 		
+ 		<zip destfile="${app.name}.zip" basedir="${build.dir}" update="true"/>
+ 		<antcall target="clean"/>
+	</target>
+	
+	<target name="package-min" depends="clean">
+	    <mkdir dir="${build.dir}"/>
+	    <mkdir dir="${app.dir}"/>
+	    <mkdir dir="${app.dir}/app"/>
+	    <mkdir dir="${app.dir}/conf"/>
+	    
+	    <copy todir="${app.dir}/app" ><fileset dir="app"/></copy>
+	    <copy file="conf/routes" todir="${app.dir}/conf"/>
+	    <copy file="conf/application.conf" todir="${app.dir}/conf"/>
+ 		
+ 		<zip destfile="${app.name}.zip" basedir="${build.dir}" update="true"/>
+ 		<antcall target="clean"/>
+	</target>
+	
+	<target name="main" depends="package-min"/>
+
+</project>

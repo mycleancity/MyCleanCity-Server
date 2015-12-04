@@ -1,0 +1,5 @@
+Hi ${department.name},
+
+New Complaint:${complaint.caption}.
+
+Thanks!

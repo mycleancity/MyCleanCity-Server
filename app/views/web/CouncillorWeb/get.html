@@ -1,0 +1,143 @@
+#{extends 'main.html' /}
+#{set title:'My Councillor' /}
+
+<div class="layout-2cols">
+  <div class="content grid_8">
+      <div class="project-detail">
+          <h2 class="rs project-title">${o.councillor.name}</h2>
+          <p class="rs post-by"><a href="#">${o.councillor.zone.name}</a></p>
+          <div class="project-short big-thumb">
+              <div class="top-project-info">
+                  <div class="content-info-short clearfix">
+                      <div class="thumb-img">
+                	  <img width="600" src="https://maps.googleapis.com/maps/api/staticmap?zoom=12.5&size=800x800&maptype=roadmap${o.maps}">
+                      </div>
+                  </div>
+              </div><!--end: .top-project-info -->
+          </div>
+          <div class="project-tab-detail tabbable accordion">
+            <ul class="nav nav-tabs clearfix">
+              <li class="active"><a href="#">Latest Complaints</a></li>
+              <li><a href="#" class="be-fc-orange">Latest Culprits</a></li>
+              <li><a href="#" class="be-fc-orange">Latest ThinkBox</a></li>
+            </ul>
+            <div class="tab-content">
+                <div>
+                    <h3 class="rs alternate-tab accordion-label">Latest Complaints</h3>
+                    <div class="tab-pane active accordion-content">
+                        <div class="tab-pane-inside">
+                            <div class="list-last-post">
+                                #{paginate.list items:o.complaints, as:'complaint'}
+                                <div class="media other-post-item">
+                                    <a href="@{web.ComplaintWeb.get(complaint.id)}" class="thumb-left">
+                                        <img src="${complaint.photo.url('200')}" alt="${complaint.caption}">
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="rs title-other-post">
+                                            <a href="@{web.ComplaintWeb.get(complaint.id)}" class="be-fc-orange fw-b">${complaint.log.createdBy.name}</a>
+                                        </h4>
+                                        <p class="rs fc-gray time-post pb10">posted ${complaint.log.createdAtTimeAgo}</p>
+                                        <p class="rs description">${complaint.caption}</p>
+                                    </div>
+                                </div><!--end: .other-post-item -->
+                                #{/paginate.list}
+                                <div class="media other-post-item">
+                                    <a href="@{web.ComplaintWeb.index(null, o.councillor.zone.id)}">Show More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end: .tab-pane(Updates) -->
+                </div>
+                <div>
+                    <h3 class="rs alternate-tab accordion-label">Latest Culprits</h3>
+                    <div class="tab-pane accordion-content">
+                        <div class="tab-pane-inside">
+                            #{paginate.list items:o.culprits, as:'culprit'}
+                            <div class="media other-post-item">
+                                <a href="@{web.CulpritWeb.get(culprit.id)}" class="thumb-left">
+                                    <img src="${culprit.photo.url('200')}" alt="${culprit.story}">
+                                </a>
+                                <div class="media-body">
+                                    <h4 class="rs title-other-post">
+                                        <a href="@{web.CulpritWeb.get(culprit.id)}" class="be-fc-orange fw-b">${culprit.log.createdBy.name}</a>
+                                    </h4>
+                                    <p class="rs fc-gray time-post pb10">posted ${culprit.log.createdAtTimeAgo}</p>
+                                    <p class="rs description">${culprit.story}</p>
+                                </div>
+                            </div><!--end: .other-post-item -->
+                            #{/paginate.list}
+                            <div class="media other-post-item">
+                                <a href="@{web.CulpritWeb.index(null, o.councillor.zone.id)}">Show More</a>
+                            </div>
+                        </div>
+                    </div><!--end: .tab-pane(Backers) -->
+                </div>
+                <div>
+                    <h3 class="rs active alternate-tab accordion-label">Latest ThinkBox</h3>
+                    <div class="tab-pane accordion-content">
+                        <div class="tab-pane-inside">
+                            #{paginate.list items:o.thinkBoxes, as:'thinkbox'}
+                            <div class="media other-post-item">
+                                <a href="@{web.ThinkBoxWeb.get(thinkbox.id)}" class="thumb-left">
+                                    <img src="${thinkbox.photo.url('200')}" alt="${thinkbox.caption}">
+                                </a>
+                                <div class="media-body">
+                                    <h4 class="rs title-other-post">
+                                        <a href="@{web.ThinkBoxWeb.get(thinkbox.id)}" class="be-fc-orange fw-b">${thinkbox.log.createdBy.name}</a>
+                                    </h4>
+                                    <p class="rs fc-gray time-post pb10">posted ${thinkbox.log.createdAtTimeAgo}</p>
+                                    <p class="rs description">${thinkbox.caption}</p>
+                                </div>
+                            </div><!--end: .other-post-item -->
+                            #{/paginate.list}
+                            <div class="media other-post-item">
+                                <a href="@{web.ThinkBoxWeb.index(null, o.councillor.zone.id)}">Show More</a>
+                            </div>
+                        </div>
+                    </div><!--end: .tab-pane(Comments) -->
+                </div>
+              </div>
+        </div><!--end: .project-tab-detail -->
+      </div>
+  </div><!--end: .content -->
+  <div class="sidebar grid_4">
+      <div class="project-runtime">
+          <div class="box-gray">
+              <div class="project-date clearfix">
+                  <span class="val"><span class="fw-b">Name: </span>${o.councillor.name}</span>
+              </div>
+              <div class="project-date clearfix">
+                  <span class="val"><span class="fw-b">Email: </span>${o.councillor.email}</span>
+              </div>
+              <div class="project-date clearfix">
+                  <span class="val"><span class="fw-b">Contact: </span>${o.councillor.mobile}</span>
+              </div>
+              <div class="project-date clearfix">
+                  <span class="val"><span class="fw-b">Zone: </span>${o.councillor.zone.name}</span>
+              </div>
+              <a class="btn btn-white btn-buck-project" target="new" href="#">
+                <img width="400" src="${o.councillor.avatar.url('400')}">
+              </a>
+          </div>
+      </div><!--end: .project-runtime -->
+      <div class="project-author">
+          <div class="box-gray">
+              <h4 class="rs title-nav">Councillors</h4>
+              <ul class="rs nav nav-category">
+              #{paginate.list items:o.councillors, as:'councillor'}
+                <li #{if o.councillor.id == councillor?.id}class="active"#{/if}>
+                  <a href="@{web.CouncillorWeb.get(councillor.id)}">
+                  ${councillor.name}
+                  <i class="icon iPlugGray"></i>
+                  </a>
+                </li>
+              #{/paginate.list}
+              </ul>
+              <p class="rs view-all-category">
+                <a href="@{web.CouncillorWeb.index()}" class="be-fc-orange" style="font-weight: bold;">+ View all councillors</a>
+              </p>
+          </div>
+      </div>
+  </div><!--end: .sidebar -->
+  <div class="clear"></div>
+</div>

@@ -1,0 +1,20 @@
+# You can specialize this file for each language.
+# For example, for French create a messages.fr file
+#
+
+# ----------------------------
+# Error Type Messages
+# ----------------------------
+
+MIN=%s can not less than %s
+MAX=%s can not larger than %s
+NOT_FOUND=%s cannot be found
+DUPLICATED=%s '%s' is duplicated
+REQUIRED=%s is required
+INVALID=%s '%s' is not valid
+
+# ----------------------------
+# Error Code Messages
+# ----------------------------
+
+E1006=Invalid email or password

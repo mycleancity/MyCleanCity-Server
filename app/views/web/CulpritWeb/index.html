@@ -1,0 +1,82 @@
+#{extends 'main.html' /}
+#{set title:'Culprits' /}
+
+<div class="layout-2cols">
+  <div class="content grid_9">
+      <div class="search-result-page">
+          <div class="top-lbl-val">
+              <h3 class="common-title">
+                <span class="fc-orange">
+                  #{if _category}
+                    ${_category.name}
+                  #{/if}
+                  #{elseif _zone}
+                    ${_zone.name}
+                  #{/elseif}
+                  #{else}
+                    Culprits
+                  #{/else}
+                </span>
+              </h3>
+              <!-- <div class="count-result">
+                  <span class="fw-b fc-black">560</span> projects found for “<span class="fw-b fc-black">craft</span>”
+              </div> -->
+              <!-- <div class="confirm-search">Were you looking for projects in <a href="#" class="fw-b be-fc-orange">Crafts</a>?</div> -->
+          </div>
+          <div id="list-search-ajax" class="list-project-result">
+              #{paginate.list items:culprits, as:'culprit'}
+              <div class="project-short larger">
+                  <div class="top-project-info">
+                      <div class="content-info-short clearfix">
+                          <a href="@{web.CulpritWeb.get(culprit.id)}" class="thumb-img">
+                              <img src="${culprit.photo.thumbnail()}">
+                          </a>
+                          <div class="wrap-short-detail">
+                              <h3 class="rs acticle-title"><a class="be-fc-orange" href="@{web.CulpritWeb.get(culprit.id)}">${culprit.category.name}</a></h3>
+                              <div class="project-date clearfix">
+                                  <span class="val"><span class="fw-b">Date: </span>${culprit.log.createdAt.format('dd MMM yyyy')}</span>
+                              </div>
+                              <div class="project-date clearfix">
+                                  <span class="val"><span class="fw-b">Time: </span>${culprit.log.createdAt.format('hh:mm a')}</span>
+                              </div>
+                              <p class="rs tiny-desc">by <a href="#" class="fw-b fc-gray be-fc-orange">${culprit.log.createdBy.name}</a> in <span class="fw-b fc-gray">${culprit.address}</span></p>
+                              <p class="rs title-description">${culprit.story}</p>
+
+                          </div>
+                          <p class="rs clearfix comment-view">
+                              <a href="@{web.CulpritWeb.get(culprit.id)}" class="fc-gray be-fc-orange">${culprit.commentCount} comments</a>
+                              <!-- <span class="sep">|</span>
+                              <a href="#" class="fc-gray be-fc-orange">378 views</a> -->
+                          </p>
+                      </div>
+                  </div>
+              </div>
+              #{/paginate.list}
+          </div>
+          #{paginate.summary items:culprits /}
+          #{paginate.controls items:culprits /}
+          <!-- <p class="rs ta-c">
+              <a id="showmoreresults" class="btn btn-black btn-load-more" href="#">Show more projects</a>
+          </p> -->
+      </div><!--end: .search-result-page -->
+  </div><!--end: .content -->
+  <div class="sidebar grid_3">
+      <div class="left-list-category">
+          <h4 class="rs title-nav">Category</h4>
+          <ul class="rs nav nav-category">
+          #{paginate.list items:categories, as:'category'}
+            <li #{if category.id == _category?.id}class="active"#{/if}>
+              <a href="@{web.CulpritWeb.index(category.id)}">
+              ${category.name}
+              <i class="icon iPlugGray"></i>
+              </a>
+            </li>
+          #{/paginate.list}
+          </ul>
+          <p class="rs view-all-category">
+            <a href="@{web.CulpritWeb.index()}" class="be-fc-orange" style="font-weight: bold;">+ View all categories</a>
+          </p>
+      </div>
+  </div><!--end: .sidebar -->
+  <div class="clear"></div>
+</div>

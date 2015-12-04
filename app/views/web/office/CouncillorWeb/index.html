@@ -1,0 +1,93 @@
+#{extends 'office.html' /}
+#{set title:'Councillor' /}
+
+<div class="row">
+    <div class="col-sm-6">
+        <section class="panel">
+            <header class="panel-heading">
+                Search Councillor
+            </header>
+            <div class="panel-body">
+                #{form @web.office.CouncillorWeb.index(), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Keyword</label>
+                      <div class="col-lg-8">
+                          <input type="text" class="form-control" name="keyword" id="keyword" value="${keyword}">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="col-lg-offset-3 col-lg-8">
+                          <button type="submit" class="btn btn-info">Search</button>
+                          <a href="@{web.office.CouncillorWeb.index()}" class="btn btn-danger">Reset</a>
+                      </div>
+                  </div>
+                #{/form}
+            </div>
+        </section>
+    </div>
+    <div class="col-sm-6">
+        <section class="panel">
+            <header class="panel-heading">
+                Councillors
+            </header>
+            <div class="panel-body">
+                <section id="no-more-tables">
+                    <table class="table table-hover general-table table-condensed cf">
+                        <thead class="cf">
+                        <tr>
+                            <th>#</th>
+                            <th>Email</th>
+                            <th>Zone</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #{paginate.list items:users, as:'user' }
+                        <tr class="clickable" onclick="document.location ='@{web.office.CouncillorWeb.get(user.id)}';">
+                            <td data-title="#">${user_index}</td>
+                            <td data-title="Email">${user.email}</td>
+                            <td data-title="Role">${user.zone?.name}</td>
+                        </tr>
+                        #{/paginate.list}
+                        </tbody>
+                    </table>
+                    #{paginate.summary items:users /}
+                    #{paginate.controls items:users /}
+                </section>
+            </div>
+        </section>
+    </div>
+</div>
+
+#{set 'moreScripts'}
+<script src="@{'/public/BucketAdmin/js/jquery.validate.min.js'}"></script>
+    <script>
+      var Script = function () {
+
+        $().ready(function() {
+          // validate signin form on keyup and submit
+          $("#create-form").validate({
+              rules: {
+                  email: {
+                      required: true,
+                      email: true
+                  },
+                  password: {
+                      required: true,
+                      minlength: 4
+                  }
+              },
+              messages: {
+                  email: {
+                      required: "Please enter an email",
+                      email: "Please enter a valid email address"
+                  },
+                  password: {
+                      required: "Please provide a password",
+                      minlength: "Your password must be at least 4 characters long"
+                  }
+              }
+          });
+        });
+      }();
+    </script>
+#{/set}

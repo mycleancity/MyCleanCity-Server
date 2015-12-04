@@ -1,0 +1,83 @@
+#{extends 'office.html' /}
+#{set title:'ThinkBox' /}
+
+<div class="row">
+    <div class="col-sm-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Search ThinkBox
+            </header>
+            <div class="panel-body">
+                #{form @web.office.ThinkBoxWeb.index(), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Keyword</label>
+                      <div class="col-lg-8">
+                          <input type="text" class="form-control" name="keyword" id="keyword" value="${keyword}">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Status</label>
+                      <div class="col-lg-8">
+                          <select class="form-control input-sm m-bot15" name="status">
+                          	<option value="" #{if status == ''}selected#{/if}>All</option>
+                          	<option value="0" #{if status == 0}selected#{/if}>Pending Moderation</option>
+                          	<option value="1" #{if status == 1}selected#{/if}>Approved</option>
+                          	<option value="2" #{if status == 2}selected#{/if}>Selected</option>
+                          	<option value="3" #{if status == 3}selected#{/if}>Presented</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Category</label>
+                      <div class="col-lg-8">
+                      	  #{select 'category', items:categories, valueProperty:'id', labelProperty:'name', value:category, class:'form-control input-sm m-bot15' /}
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="col-lg-offset-3 col-lg-8">
+                          <button type="submit" class="btn btn-info">Search</button>
+                          <a href="@{web.office.ThinkBoxWeb.index()}" class="btn btn-danger">Reset</a>
+                      </div>
+                  </div>
+                #{/form}
+            </div>
+        </section>
+    </div>
+    <div class="col-sm-12">
+        <section class="panel">
+            <header class="panel-heading">
+                ThinkBoxes
+            </header>
+            <div class="panel-body">
+                <section id="no-more-tables">
+                    <table class="table table-hover general-table table-condensed cf">
+                        <thead class="cf">
+                        <tr>
+                            <th>#</th>
+                            <th>Photo</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #{paginate.list items:thinkBoxes, as:'thinkbox' }
+                        <tr class="clickable" onclick="document.location ='@{web.office.ThinkBoxWeb.get(thinkbox.id)}';">
+                        	<td data-title="#">${thinkbox_index}</td>
+                            <td data-title="Photo"><img width="50" src="${thinkbox.photo?.url('100')}"></td>
+                            <td data-title="Title">${thinkbox.caption}</td>
+                            <td data-title="Category">${thinkbox.category.name}</td>
+                            <td data-title="Status">
+                            	${thinkbox.statusDisplay}
+                            </td>
+                        </tr>
+                        #{/paginate.list}
+                        </tbody>
+                    </table>
+                    #{paginate.summary items:thinkBoxes /}
+                    #{paginate.controls items:thinkBoxes /}
+                </section>
+            </div>
+        </section>
+    </div>
+</div>

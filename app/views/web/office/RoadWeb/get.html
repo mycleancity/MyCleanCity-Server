@@ -1,0 +1,41 @@
+#{extends 'office.html' /}
+#{set title:'Road' /}
+
+<div class="row">
+	<div class="col-sm-12">
+	    <section class="panel">
+	        <header class="panel-heading">
+	            Road
+	        </header>
+	        <div class="panel-body">
+	            #{form @web.office.RoadWeb.edit(), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+	              <input type="hidden" name="id" value="${road.id}">
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Road ID</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${road.zid}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Road Name</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${road.name}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+                      <label class="col-lg-3 control-label">Road Tags</label>
+                      <div class="col-lg-8">
+                          <p class="control-label text-left">${road.tags}</p>
+                      </div>
+                  </div>
+	              <div class="form-group">
+	                  <div class="col-sm-offset-3 col-sm-8">
+	                      <button type="submit" class="btn btn-info">Edit</button>
+	                      <a href="@{web.office.RoadWeb.delete(road.id)}" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-danger">Delete</a>
+	                  </div>
+	              </div>
+	            #{/form}
+	        </div>
+	    </section>
+	</div>
+</div>

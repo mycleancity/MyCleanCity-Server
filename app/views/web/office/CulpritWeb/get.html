@@ -1,0 +1,128 @@
+#{extends 'office.html' /}
+#{set title:'Culprit' /}
+
+<div class="row">
+	<div class="col-sm-12">
+	    <section class="panel">
+	        <header class="panel-heading">
+	            Culprit
+	        </header>
+	        <div class="panel-body">
+	            #{form @web.office.CulpritWeb.edit(), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+	              <input type="hidden" name="id" value="${culprit.id}">
+	              <div class="form-group">
+	                  <label class="col-lg-3 control-label">Photo</label>
+	                  <div class="col-lg-8">
+	                      <div class="control-label text-left">
+	                      	<img width="300" src="${culprit.photo.url('600')}">
+	                      </div>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Description</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${culprit.story}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Category</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${culprit.category.name}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Status</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${culprit.statusDisplay}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Date</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${culprit.log.createdAt.format('hh:mm a, dd MMM yyyy')}</p>
+	                  </div>
+	              </div>
+	              
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Repeat Offender</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${culprit.isRepeatOffender}</p>
+	                  </div>
+	              </div>
+	              
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Allow Publish Name</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${culprit.allowPublishName}</p>
+	                  </div>
+	              </div>
+	              
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Contact Name</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${culprit.contactName}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Contact Email</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${culprit.contactEmail}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Contact No</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${culprit.contactNo}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">YoutubeLink</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left"><a href="${culprit.youtubeLink}">${culprit.youtubeLink}</a></p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Address</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${culprit.address}</p>
+	                  </div>
+	              </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Zone</label>
+                    <div class="col-sm-8">
+                      <p class="control-label text-left">${culprit.zone?.name}</p>
+                    </div>
+                  </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Map</label>
+	                  <div class="col-sm-8">
+	                  	<div class="control-label text-left">
+	                      	<img width="400" src="https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=800x800&maptype=roadmap
+&markers=color:red%7Clabel:S%7C${culprit.location.x},${culprit.location.y}">
+	                    </div>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <div class="col-sm-offset-3 col-sm-8">
+	                  	  <button type="submit" class="btn btn-info">Edit</button>
+	                  	  #{if culprit.status == 0}
+	                      	<a href="@{web.office.CulpritWeb.approve(culprit.id)}" class="btn btn-info">Approve</a>
+	                      	<a href="@{web.office.CulpritWeb.blacklist(culprit.id)}" onclick="return confirm('Are you sure you want to blacklist this item?');" class="btn btn-danger">Blacklist</a>
+	                      	<a href="@{web.office.CulpritWeb.delete(culprit.id)}" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-danger">Delete</a>
+	                      #{/if}
+	                      #{elseif culprit.status == 3 || culprit.status == 2}
+	                      	<a href="@{web.office.CulpritWeb.delete(culprit.id)}" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-danger">Delete</a>
+                            <a href="@{web.office.CulpritWeb.pick(culprit.id)}" onclick="return confirm('Are you sure you want to pick this item?');" class="btn btn-warning">Pick</a>
+	                      #{/elseif}
+	                      #{else}
+	                      	<a href="@{web.office.CulpritWeb.settle(culprit.id)}" onclick="return confirm('Are you sure you want to settle this item?');" class="btn btn-success">Settle</a>
+						    <a href="@{web.office.CulpritWeb.delete(culprit.id)}" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-danger">Delete</a>
+                            <a href="@{web.office.CulpritWeb.pick(culprit.id)}" onclick="return confirm('Are you sure you want to pick this item?');" class="btn btn-warning">Pick</a>
+						  #{/else}
+	                  </div>
+	              </div>
+	            #{/form}
+	        </div>
+	    </section>
+	</div>
+</div>

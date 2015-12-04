@@ -1,0 +1,54 @@
+#{extends 'office.html' /}
+#{set title:'SOAP' /}
+
+<div class="row">
+  <div class="col-sm-12">
+    <section class="panel">
+      <header class="panel-heading">
+        SOAP
+      </header>
+      <div class="panel-body">
+      #{form @web.office.ComplaintWeb.edit(), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+ 
+        <div class="form-group">
+          <label class="col-sm-3 control-label">API</label>
+          <div class="col-sm-8">
+            <p class="control-label text-left">${soap.api}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Start</label>
+          <div class="col-sm-8">
+            <p class="control-label text-left">${soap.createdAt.format('hh:mm a, dd MMM yyyy')}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Time</label>
+          <div class="col-sm-8">
+            <p class="control-label text-left">${soap.times}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Success</label>
+          <div class="col-sm-8">
+            <p class="control-label text-left">${soap.success}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Request</label>
+          <div class="col-sm-8">
+            <p class="control-label text-left">${soap.request}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Response</label>
+          <div class="col-sm-8">
+            <p class="control-label text-left">${soap.response}</p>
+          </div>
+        </div>
+        
+      #{/form}
+      </div>
+    </section>
+  </div>
+</div>

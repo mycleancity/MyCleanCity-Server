@@ -1,0 +1,162 @@
+#{extends 'main.html' /}
+#{set title:'Advertisement' /}
+
+<div class="row">
+    <div class="col-sm-6">
+        <section class="panel">
+            <header class="panel-heading">
+                Create Advertisement
+            </header>
+            <div class="panel-body">
+                #{form @web.AdvWeb.create(), method:'POST', class:'form-horizontal bucket-form cmxform', id:'create-form', enctype:'multipart/form-data'}
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Caption</label>
+                      <div class="col-lg-8">
+                          <input type="text" class="form-control" name="caption" id="caption" required>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Story</label>
+                      <div class="col-lg-8">
+                          <textarea class="form-control" rows="6" name="story" id="story" required></textarea>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Period</label>
+                      <div class="col-lg-8">
+                          <div class="input-group input-large">
+                              <input type="text" class="form-control dpd1" name="start" id="start" value="${today}" required>
+                              <span class="input-group-addon">To</span>
+                              <input type="text" class="form-control dpd2" name="end" id="end" value="${today}" required>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">URL</label>
+                      <div class="col-lg-8">
+                          <input type="url" class="form-control" name="url" id="url" required>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Row</label>
+                      <div class="col-lg-8">
+                          <input type="number" class="form-control" name="row" id="row" required>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label" for="photo">Photo</label>
+                      <div class="col-lg-8">
+                        <input type="file" class="form-control" name="photo" id="photo" required>
+                        <p class="help-block">Recommended Size 600 x 600</p>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="col-lg-offset-3 col-lg-8">
+                          <button type="submit" class="btn btn-info">Create</button>
+                      </div>
+                  </div>
+                #{/form}
+            </div>
+        </section>
+    </div>
+    <div class="col-sm-6">
+        <section class="panel">
+            <header class="panel-heading">
+                Advertisements
+            </header>
+            <div class="panel-body">
+                <section id="no-more-tables">
+                    <table class="table table-hover general-table table-condensed cf">
+                        <thead class="cf">
+                        <tr>
+                            <th>#</th>
+                            <th>Caption</th>
+                            <th>Photo</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #{paginate.list items:advs, as:'adv' }
+                        <tr class="clickable" onclick="document.location ='@{web.AdvWeb.get(adv.id)}';">
+                            <td data-title="#">${adv_index}</td>
+                            <td data-title="Caption">${adv.caption}</td>
+                            <td data-title="Photo"><img width="100" src="${adv.photo.url('200')}"></td>
+                        </tr>
+                        #{/paginate.list}
+                        </tbody>
+                    </table>
+                    #{paginate.summary items:advs /}
+                  #{paginate.controls items:advs /}
+                </section>
+            </div>
+        </section>
+    </div>
+</div>
+
+#{set 'moreStyles'}
+<link rel="stylesheet" type="text/css" href="@{'/public/BucketAdmin/js/bootstrap-datepicker/css/datepicker.css'}" />
+<link rel="stylesheet" type="text/css" href="@{'/public/BucketAdmin/js/bootstrap-daterangepicker/daterangepicker-bs3.css'}" />
+#{/set}
+
+#{set 'moreScripts'}
+<script src="@{'/public/BucketAdmin/js/bootstrap-datepicker/js/bootstrap-datepicker.js'}"></script>
+<script src="@{'/public/BucketAdmin/js/bootstrap-daterangepicker/moment.min.js'}"></script>
+<script src="@{'/public/BucketAdmin/js/bootstrap-daterangepicker/daterangepicker.js'}"></script>
+<script src="@{'/public/BucketAdmin/js/advanced-form.js'}"></script>
+<script src="@{'/public/BucketAdmin/js/jquery.validate.min.js'}"></script>
+<script>
+  var Script = function () {
+
+    $().ready(function() {
+      // validate signin form on keyup and submit
+      $("#create-form").validate({
+          rules: {
+              caption: {
+                  required: true
+              },
+              story: {
+                  required: true
+              },
+              start: {
+                  required: true
+              },
+              end: {
+                  required: true
+              },
+              url: {
+                  required: true
+              },
+              row: {
+                  required: true
+              },
+              photo: {
+                  required: true
+              }
+          },
+          messages: {
+              caption: {
+                  required: "Please enter a caption"
+              },
+              story: {
+                  required: "Please provide a story"
+              },
+              start: {
+                  required: "Please provide a start date"
+              },
+              end: {
+                  required: "Please provide an end date"
+              },
+              url: {
+                  required: "Please enter an url"
+              },
+              row: {
+                  required: "Please enter a row"
+              },
+              photo: {
+                  required: "Please upload a photo"
+              }
+          }
+      });
+    });
+  }();
+</script>
+#{/set}

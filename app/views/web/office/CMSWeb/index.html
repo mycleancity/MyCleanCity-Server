@@ -1,0 +1,132 @@
+#{extends 'office.html' /}
+#{set title:'CMS' /}
+
+<div class="row">
+  <div class="col-sm-12">
+    <section class="panel">
+      <header class="panel-heading">
+        ThinkBox Total Signature Required
+      </header>
+      <div class="panel-body">
+      #{form @web.office.CMSWeb.updateThinkBoxKickOffCount(), method:'POST', class:'form-horizontal bucket-form cmxform', id:'form', enctype:'multipart/form-data'}
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Total Signature Required</label>
+          <div class="col-lg-8">
+            <input type="text" class="form-control" name="count" id="count" value="${cms.thinkboxKickOffCount}">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-lg-offset-3 col-lg-8">
+            <button type="submit" class="btn btn-info">Update</button>
+          </div>
+        </div>
+      #{/form}
+      </div>
+    </section>
+  </div>
+  <div class="col-sm-6">
+    <section class="panel">
+      <header class="panel-heading">
+        About Us
+      </header>
+      <div class="panel-body">
+      #{form @web.office.CMSWeb.updateAboutUsPhoto(), method:'POST', class:'form-horizontal bucket-form cmxform', id:'form', enctype:'multipart/form-data'}
+        <input type="hidden" name="id" value="${banner?.id}">
+
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Photo</label>
+
+          <div class="col-lg-8">
+            <input type="file" class="form-control" name="photo" id="photo">
+              #{if cms?.aboutUsPhoto}
+                <p class="help-block"><img width="100" src="${cms?.aboutUsPhoto?.url('200')}"></p>
+              #{/if}
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-lg-offset-3 col-lg-8">
+            <button type="submit" class="btn btn-info">Update</button>
+          </div>
+        </div>
+      #{/form}
+      </div>
+    </section>
+  </div>
+  <div class="col-sm-6">
+    <section class="panel">
+      <header class="panel-heading">
+        Staff Picked
+      </header>
+      <div class="panel-body">
+      #{form @web.office.CMSWeb.updateAboutUsPhoto(), method:'POST', class:'form-horizontal bucket-form cmxform', id:'form', enctype:'multipart/form-data'}
+        <div class="form-group">
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Complaint</label>
+            <div class="col-lg-8">
+              <p class="control-label text-left">${cms.pickedComplaint?.caption}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Culprit</label>
+            <div class="col-lg-8">
+              <p class="control-label text-left">${cms.pickedCulprit?.superShortStory}</p>
+            </div>
+          </div>
+        </div>
+      #{/form}
+      </div>
+    </section>
+  </div>
+  <div class="col-sm-12">
+    <section class="panel">
+      <header class="panel-heading">
+        Terms and Conditions
+      </header>
+      <div class="panel-body">
+      #{form @web.office.CMSWeb.updateTerm(), method:'POST', class:'form-horizontal bucket-form cmxform', id:'form', enctype:'multipart/form-data'}
+        <input type="hidden" name="id" value="${banner?.id}">
+        <div class="form-group">
+          <div class="col-lg-12">
+            <textarea class="ckeditor" cols="80" id="term" name="term" rows="10">${cms.term}</textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-lg-12">
+            <button type="submit" class="btn btn-info">Update</button>
+          </div>
+        </div>
+      #{/form}
+      </div>
+    </section>
+  </div>
+  <div class="col-sm-12">
+    <section class="panel">
+      <header class="panel-heading">
+        Privacy Policy
+      </header>
+      <div class="panel-body">
+      #{form @web.office.CMSWeb.updatePrivacy(), method:'POST', class:'form-horizontal bucket-form cmxform', id:'form', enctype:'multipart/form-data'}
+        <input type="hidden" name="id" value="${banner?.id}">
+
+        <div class="form-group">
+          <div class="col-lg-12">
+            <textarea class="ckeditor" cols="80" id="privacy" name="privacy" rows="10">${cms.privacy}</textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-lg-12">
+            <button type="submit" class="btn btn-info">Update</button>
+          </div>
+        </div>
+      #{/form}
+      </div>
+    </section>
+  </div>
+</div>
+
+#{set 'moreScripts'}
+<script src="@{'/public/javascripts/ckeditor/ckeditor.js'}"></script>
+<script>
+
+</script>
+#{/set}

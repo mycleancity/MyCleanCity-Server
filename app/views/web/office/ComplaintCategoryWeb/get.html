@@ -1,0 +1,47 @@
+#{extends 'office.html' /}
+#{set title:'Complaint Category' /}
+
+<div class="row">
+	<div class="col-sm-12">
+	    <section class="panel">
+	        <header class="panel-heading">
+	            Complaint Category
+	        </header>
+	        <div class="panel-body">
+	            #{form @web.office.ComplaintCategoryWeb.edit(), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+	              <input type="hidden" name="id" value="${category.id}">
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Name</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${category.name}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">MBPJ ID</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${category.mbpjID}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">MBPJ Name</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${category.mbpjName}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Department</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${category.department.name}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <div class="col-sm-offset-3 col-sm-8">
+	                      <button type="submit" class="btn btn-info">Edit</button>
+	                      <a href="@{web.office.ComplaintCategoryWeb.delete(category.id)}" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-danger">Delete</a>
+	                  </div>
+	              </div>
+	            #{/form}
+	        </div>
+	    </section>
+	</div>
+</div>

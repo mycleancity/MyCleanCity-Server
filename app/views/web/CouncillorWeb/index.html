@@ -1,0 +1,41 @@
+#{extends 'main.html' /}
+#{set title:'My Councillor' /}
+
+<!--end: .home-feature-category -->
+<div class="home-popular-project">
+  <div class="container_12">
+    <div class="grid_12 wrap-title">
+      <h2 class="common-title">My Councillor</h2>
+    </div>
+    <div class="clear"></div>
+    <div class="lst-popular-project clearfix">
+      #{list items:users, as:'user'}
+        <div class="grid_3">
+          <div class="project-short sml-thumb">
+            <div class="top-project-info">
+              <div class="content-info-short clearfix">
+              	<a href="@{web.CouncillorWeb.get(user.id)}" class="thumb-img">
+                	<img src="${user.avatar?.url('400')}">
+                </a>
+                <div class="wrap-short-detail">
+                  <h3 class="rs acticle-title"><a class="be-fc-orange" href="@{web.CouncillorWeb.get(user.id)}">${user.name}</a></h3>
+                  <p class="rs tiny-desc" style="padding-bottom: 3px;">${user.email}</p>
+                  <p class="rs tiny-desc" style="color: #5c666b;">TEL: ${user.mobile}</p>
+                </div>
+              </div>
+            </div>
+            <div class="bottom-project-info clearfix" style="height: 80px;">
+	              <div class="group-fee clearfix">
+	                <div class="fee-item">
+	                  <p class="rs lbl">Zone</p>
+	                  <span class="val">${user.zone?.name}: ${user.zone?.story}</span>
+	                </div>
+	              </div>
+	           </div>
+	        </div>
+          </div>
+      #{/list}
+    </div>
+  </div>
+</div>
+<!--end: .home-popular-project -->

@@ -1,0 +1,99 @@
+#{extends 'office.html' /}
+#{set title:'User' /}
+
+<div class="row">
+	<div class="col-sm-12">
+	    <section class="panel">
+	        <header class="panel-heading">
+	            Edit User
+	        </header>
+	        <div class="panel-body">
+	            #{form @web.office.UserWeb.update(), method:'POST', class:'form-horizontal bucket-form cmxform', id:'update-form', enctype:'multipart/form-data'}
+	              <input type="hidden" name="id" value="${user.id}">
+	              <div class="form-group">
+                      <label class="col-lg-3 control-label">Email</label>
+                      <div class="col-lg-8">
+                          <input type="email" class="form-control" name="email" id="email" value="${user.email}">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Name</label>
+                      <div class="col-lg-8">
+                          <input type="text" class="form-control" name="name" id="name" value="${user.name}">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Password</label>
+                      <div class="col-lg-8">
+                          <input type="password" class="form-control" name="password" id="password">
+                          <p class="help-block">Leave it empty won't update password</p>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Role</label>
+                      <div class="col-lg-8">
+                          <select class="form-control input-sm m-bot15" name="role">
+                          	<option value="Admin" #{if user.roles.contains('Admin')}selected#{/if}>Admin</option>
+                          	<option value="Officer" #{if user.roles.contains('Officer')}selected#{/if}>Department Officer</option>
+                          	<option value="Officer_Head" #{if user.roles.contains('Officer_Head')}selected#{/if}>Head of Department</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                  	  <label class="col-lg-3 control-label">Avatar</label>
+                      <div class="col-lg-8">
+                          <input type="file" class="form-control" name="avatar" id="avatar" >
+		                  <p class="help-block">Recommended Size 500 * 500</p>
+		                  #{if user?.avatar}
+		                  <p class="help-block"><img width="100" src="${user?.avatar?.url('200')}"></p>
+		                  #{/if}
+                      </div>
+                  </div>
+	              <div class="form-group">
+	                  <div class="col-lg-offset-3 col-lg-8">
+	                      <button type="submit" class="btn btn-info">Update</button>
+	                  </div>
+	              </div>
+	            #{/form}
+	        </div>
+	    </section>
+	</div>
+</div>
+
+#{set 'moreScripts'}
+<script src="@{'/public/BucketAdmin/js/jquery.validate.min.js'}"></script>
+    <script>
+      var Script = function () {
+
+        $().ready(function() {
+          // validate signin form on keyup and submit
+          $("#update-form").validate({
+              rules: {
+                  email: {
+                      required: true,
+                      email: true
+                  },
+                  name: {
+                      required: true
+                  },
+                  password: {
+                      minlength: 4
+                  }
+              },
+              messages: {
+                  email: {
+                      required: "Please enter an email",
+                      email: "Please enter a valid email address"
+                  },
+                  name: {
+                      required: "Please enter a name"
+                  },
+                  password: {
+                      minlength: "Your password must be at least 4 characters long"
+                  }
+              }
+          });
+        });
+      }();
+    </script>
+#{/set}

@@ -1,0 +1,41 @@
+#{extends 'office.html' /}
+#{set title:'User' /}
+
+<div class="row">
+	<div class="col-sm-12">
+	    <section class="panel">
+	        <header class="panel-heading">
+	            User
+	        </header>
+	        <div class="panel-body">
+	            #{form @web.office.UserWeb.edit(), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+	              <input type="hidden" name="id" value="${user.id}">
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Email</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${user.email}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Name</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${user.name}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Role</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${user.roleDisplay}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <div class="col-sm-offset-3 col-sm-8">
+	                      <button type="submit" class="btn btn-info">Edit</button>
+	                      <a href="@{web.office.UserWeb.delete(user.id)}" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-danger">Delete</a>
+	                  </div>
+	              </div>
+	            #{/form}
+	        </div>
+	    </section>
+	</div>
+</div>

@@ -1,0 +1,80 @@
+#{extends 'office.html' /}
+#{set title:'Department' /}
+
+<div class="row">
+	<div class="col-sm-12">
+	    <section class="panel">
+	        <header class="panel-heading">
+	            Department
+	        </header>
+	        <div class="panel-body">
+	            #{form @web.office.DepartmentWeb.edit(), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+	              <input type="hidden" name="id" value="${department.id}">
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Name</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${department.name}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Email</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${department.email}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Head of Department</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${department.head?.name}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Officer</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${department.officer?.name}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <div class="col-sm-offset-3 col-sm-8">
+	                      <button type="submit" class="btn btn-info">Edit</button>
+	                      <a href="@{web.office.DepartmentWeb.delete(department.id)}" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-danger">Delete</a>
+	                  </div>
+	              </div>
+	            #{/form}
+	        </div>
+	    </section>
+	</div>
+</div>
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Report
+        </header>
+        <div class="panel-body">
+            <section id="no-more-tables">
+                <table class="table table-hover general-table table-condensed cf">
+                    <thead class="cf">
+                    <tr>
+                        <th>Month</th>
+                        <th>Received</th>
+                        <th>Resolved</th>
+                        <th>In Progress</th>
+                        <th>Delayed</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    #{list items:results, as:'result' }
+                    <tr class="clickable">
+                        <td data-title="Month">${result.Month}</td>
+                        <td data-title="Received">${result.Received}</td>
+                        <td data-title="Resolved">${result.Resolved}</td>
+                        <td data-title="In Progress">${result.InProgress}</td>
+                        <td data-title="Delayed">${result.Delayed}%</td>
+                    </tr>
+                    #{/list}
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </section>
+</div>

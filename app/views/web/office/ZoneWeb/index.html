@@ -1,0 +1,59 @@
+#{extends 'office.html' /}
+#{set title:'Zone' /}
+
+<div class="row">
+    <div class="col-sm-6">
+        <section class="panel">
+            <header class="panel-heading">
+                Search Zone
+            </header>
+            <div class="panel-body">
+                #{form @web.office.ZoneWeb.index(), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Keyword</label>
+                      <div class="col-lg-8">
+                          <input type="text" class="form-control" name="keyword" id="keyword" value="${keyword}">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="col-lg-offset-3 col-lg-8">
+                          <button type="submit" class="btn btn-info">Search</button>
+                          <a href="@{web.office.ZoneWeb.index()}" class="btn btn-danger">Reset</a>
+                      </div>
+                  </div>
+                #{/form}
+            </div>
+        </section>
+    </div>
+    <div class="col-sm-6">
+        <section class="panel">
+            <header class="panel-heading">
+                Zones
+            </header>
+            <div class="panel-body">
+                <section id="no-more-tables">
+                    <table class="table table-hover general-table table-condensed cf">
+                        <thead class="cf">
+                        <tr>
+                            <th>#</th>
+                            <th>Zone ID</th>
+                            <th>Zone Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #{paginate.list items:zones, as:'zone' }
+                        <tr class="clickable" onclick="document.location ='@{web.office.ZoneWeb.get(zone.id)}';">
+                            <td data-title="#">${zone_index}</td>
+                            <td data-title="Zone ID">${zone.zid}</td>
+                            <td data-title="Zone Name">${zone.name}</td>
+                        </tr>
+                        #{/paginate.list}
+                        </tbody>
+                    </table>
+                    #{paginate.summary items:zones /}
+                    #{paginate.controls items:zones /}
+                </section>
+            </div>
+        </section>
+    </div>
+</div>

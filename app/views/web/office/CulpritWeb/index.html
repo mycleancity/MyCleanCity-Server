@@ -1,0 +1,80 @@
+#{extends 'office.html' /}
+#{set title:'Culprit' /}
+
+<div class="row">
+    <div class="col-sm-4">
+        <section class="panel">
+            <header class="panel-heading">
+                Search Culprit
+            </header>
+            <div class="panel-body">
+                #{form @web.office.CulpritWeb.index(), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Keyword</label>
+                      <div class="col-lg-8">
+                          <input type="text" class="form-control" name="keyword" id="keyword" value="${keyword}">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Status</label>
+                      <div class="col-lg-8">
+                          <select class="form-control input-sm m-bot15" name="status">
+                          	<option value="" #{if status == ''}selected#{/if}>All</option>
+                          	<option value="0" #{if status == 0}selected#{/if}>Pending Moderation</option>
+                          	<option value="1" #{if status == 1}selected#{/if}>Approved</option>
+                          	<option value="5" #{if status == 5}selected#{/if}>Rejected</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Category</label>
+                      <div class="col-lg-8">
+                      	  #{select 'category', items:categories, valueProperty:'id', labelProperty:'name', value:category, class:'form-control input-sm m-bot15' /}
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="col-lg-offset-3 col-lg-8">
+                          <button type="submit" class="btn btn-info">Search</button>
+                          <a href="@{web.office.CulpritWeb.index()}" class="btn btn-danger">Reset</a>
+                      </div>
+                  </div>
+                #{/form}
+            </div>
+        </section>
+    </div>
+    <div class="col-sm-8">
+        <section class="panel">
+            <header class="panel-heading">
+                Culprits
+            </header>
+            <div class="panel-body">
+                <section id="no-more-tables">
+                    <table class="table table-hover general-table table-condensed cf">
+                        <thead class="cf">
+                        <tr>
+                            <th>#</th>
+                            <th>Photo</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #{paginate.list items:culprits, as:'culprit' }
+                        <tr class="clickable" onclick="document.location ='@{web.office.CulpritWeb.get(culprit.id)}';">
+                        	<td data-title="#">${culprit_index}</td>
+                            <td data-title="Photo"><img width="50" src="${culprit.photo.url('100')}"></td>
+                            <td data-title="Description">${culprit.shortStory}</td>
+                            <td data-title="Category">${culprit.category.name}</td>
+                            <td data-title="Status">${culprit.statusDisplay}</td>
+                        </tr>
+                        #{/paginate.list}
+                        </tbody>
+                    </table>
+                    #{paginate.summary items:culprits /}
+                    #{paginate.controls items:culprits /}
+                </section>
+            </div>
+        </section>
+    </div>
+</div>

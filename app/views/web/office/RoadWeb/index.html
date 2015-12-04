@@ -1,0 +1,59 @@
+#{extends 'office.html' /}
+#{set title:'Road' /}
+
+<div class="row">
+    <div class="col-sm-6">
+        <section class="panel">
+            <header class="panel-heading">
+                Search Road
+            </header>
+            <div class="panel-body">
+                #{form @web.office.RoadWeb.index(), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Keyword</label>
+                      <div class="col-lg-8">
+                          <input type="text" class="form-control" name="keyword" id="keyword" value="${keyword}">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="col-lg-offset-3 col-lg-8">
+                          <button type="submit" class="btn btn-info">Search</button>
+                          <a href="@{web.office.RoadWeb.index()}" class="btn btn-danger">Reset</a>
+                      </div>
+                  </div>
+                #{/form}
+            </div>
+        </section>
+    </div>
+    <div class="col-sm-6">
+        <section class="panel">
+            <header class="panel-heading">
+                Roads
+            </header>
+            <div class="panel-body">
+                <section id="no-more-tables">
+                    <table class="table table-hover general-table table-condensed cf">
+                        <thead class="cf">
+                        <tr>
+                            <th>#</th>
+                            <th>Road ID</th>
+                            <th>Road Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #{paginate.list items:roads, as:'road' }
+                        <tr class="clickable" onclick="document.location ='@{web.office.RoadWeb.get(road.id)}';">
+                            <td data-title="#">${road_index}</td>
+                            <td data-title="Road ID">${road.zid}</td>
+                            <td data-title="Road Name">${road.name}</td>
+                        </tr>
+                        #{/paginate.list}
+                        </tbody>
+                    </table>
+                    #{paginate.summary items:roads /}
+                    #{paginate.controls items:roads /}
+                </section>
+            </div>
+        </section>
+    </div>
+</div>

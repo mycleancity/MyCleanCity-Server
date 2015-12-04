@@ -1,0 +1,64 @@
+#{extends 'main.html' /}
+#{set title:'Report Card' /}
+
+<div class="layout-2cols">
+  <div class="content grid_8">
+      <div class="project-detail">
+          <div class="project-tab-detail tabbable accordion">
+              <ul class="nav nav-tabs clearfix">
+                #{paginate.list items:o.results, as:'result'}
+                  #{if result_index == 1}
+                    <li class="active"><a href="#">${result.Month}</a></li>
+                  #{/if}
+                  #{else}
+                    <li><a href="#" class="be-fc-orange">${result.Month}</a></li>
+                  #{/else}
+                #{/paginate.list}
+              </ul>
+              <div class="tab-content">
+                <div>
+                    <h3 class="rs alternate-tab accordion-label">About</h3>
+                    #{paginate.list items:o.results, as:'result'}
+                      #{if result_index == 1}
+                        <div class="tab-pane active accordion-content">
+                          <div class="editor-content">
+                            <p style="color: #57c8f1; font-size: 1.2em; line-height: .8em;">Total Received: <strong>${result.Received}</strong></p>
+                            <p style="color: #57c8f1; font-size: 1.2em; line-height: .8em;">Total Resolved: <strong>${result.Resolved}</strong></p>
+                            <p style="color: #57c8f1; font-size: 1.2em; line-height: .8em;">In Progress: <strong>${result.InProgress}</strong></h4>
+                            <p style="color: #ec5843; font-size: 1.2em; line-height: .8em;">Total Delayed: <strong>${result.Delayed.format('#0.00')}%</strong></p>
+                          </div>
+                        </div>
+                      #{/if}
+                      #{else}
+                        <div class="tab-pane accordion-content">
+                          <div class="editor-content">
+                            <p style="color: #57c8f1; font-size: 1.2em; line-height: .8em;">Total Received: <strong>${result.Received}</strong></p>
+                            <p style="color: #57c8f1; font-size: 1.2em; line-height: .8em;">Total Resolved: <strong>${result.Resolved}</strong></p>
+                            <p style="color: #57c8f1; font-size: 1.2em; line-height: .8em;">In Progress: <strong>${result.InProgress}</strong></h4>
+                            <p style="color: #ec5843; font-size: 1.2em; line-height: .8em;">Total Delayed: <strong>${result.Delayed.format('#0.00')}%</strong></p>
+                          </div>
+                        </div>
+                      #{/else}
+                    #{/paginate.list}
+                </div>
+              </div>
+          </div><!--end: .project-tab-detail -->
+      </div>
+  </div><!--end: .content -->
+  <div class="sidebar grid_4">
+      <div class="project-runtime">
+          <div class="box-gray">
+              <div class="project-date clearfix">
+                  <span class="val"><span class="fw-b">Officer: </span>${o.Head}</span>
+              </div>
+              <div class="project-date clearfix">
+                  <span class="val"><span class="fw-b">Department: </span>${o.DepartmentName}</span>
+              </div>
+              <a class="btn btn-white btn-buck-project" href="#">
+                <img width="300" src="${o.Photo?.url('600')}">
+              </a>
+          </div>
+      </div><!--end: .project-runtime -->
+  </div><!--end: .sidebar -->
+  <div class="clear"></div>
+</div>

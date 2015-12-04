@@ -1,0 +1,119 @@
+#{extends 'office.html' /}
+#{set title:'ThinkBox' /}
+
+<div class="row">
+	<div class="col-sm-12">
+	    <section class="panel">
+	        <header class="panel-heading">
+	            Edit ThinkBox
+	        </header>
+	        <div class="panel-body">
+	            #{form @web.office.ThinkBoxWeb.update(), method:'POST', class:'form-horizontal bucket-form cmxform', id:'update-form'}
+	              <input type="hidden" name="id" value="${thinkbox.id}">
+	              <div class="form-group">
+                      <label class="col-lg-3 control-label">Title</label>
+                      <div class="col-lg-8">
+                          <input type="text" class="form-control" name="title" id="title" value="${thinkbox.caption}" required>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Description</label>
+                      <div class="col-lg-8">
+                          <textarea class="form-control" rows="6" name="description" id="description" required>${thinkbox.story}</textarea>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Category</label>
+                      <div class="col-lg-8">
+                      	  #{if thinkbox.status == 0}
+                      	  	#{select 'category', items:categories, valueProperty:'id', labelProperty:'name', value:thinkbox.category?.id, class:'form-control input-sm m-bot15' /}
+                      	  #{/if}
+                      	  #{else}
+                      	  	#{select 'category', items:categories, valueProperty:'id', labelProperty:'name', value:thinkbox.category?.id, class:'form-control input-sm m-bot15', disabled:true /}
+                      	  #{/else}
+                      </div>
+                  </div>
+                  <div class="form-group">
+	                  <label class="col-sm-3 control-label">Contact Name</label>
+	                  <div class="col-sm-8">
+	                  	<input type="text" class="form-control" name="contactName" id="contactName" value="${thinkbox.contactName}" required>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Contact Email</label>
+	                  <div class="col-sm-8">
+	                  	<input type="email" class="form-control" name="contactEmail" id="contactEmail" value="${thinkbox.contactEmail}" required>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Contact No</label>
+	                  <div class="col-sm-8">
+	                  	<input type="text" class="form-control" name="contactNo" id="contactNo" value="${thinkbox.contactNo}" required>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <div class="col-lg-offset-3 col-lg-8">
+	                      <button type="submit" class="btn btn-info">Update</button>
+	                  </div>
+	              </div>
+	            #{/form}
+	        </div>
+	    </section>
+	</div>
+</div>
+
+#{set 'moreScripts'}
+<script src="@{'/public/BucketAdmin/js/jquery.validate.min.js'}"></script>
+    <script>
+      var Script = function () {
+
+        $().ready(function() {
+          // validate signin form on keyup and submit
+          $("#update-form").validate({
+              rules: {
+                  title: {
+                      required: true
+                  },
+                  description: {
+                      required: true
+                  },
+                  category: {
+                      required: true
+                  },
+                  contactName: {
+                      required: true
+                  },
+                  contactEmail: {
+                      required: true,
+                      email: true
+                  },
+                  contactNo: {
+                      required: true
+                  }
+              },
+              messages: {
+              	  title: {
+                      required: "Please enter a title"
+                  },
+                  description: {
+                      required: "Please enter a description"
+                  },
+                  category: {
+                      required: "Please select a category"
+                  },
+                  contactName: {
+                      required: "Please enter a contact name"
+                  },
+                  contactEmail: {
+                      required: "Please enter an email",
+                      email: "Please enter a valid email address"
+                  },
+                  contactNo: {
+                      required: "Please enter a contact no"
+                  }
+              }
+          });
+        });
+      }();
+    </script>
+#{/set}

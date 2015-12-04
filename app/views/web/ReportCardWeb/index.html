@@ -1,0 +1,34 @@
+#{extends 'main.html' /}
+#{set title:'Report Card' /}
+
+<!--end: .home-feature-category -->
+<div class="home-popular-project">
+  <div class="container_12">
+    <div class="grid_12 wrap-title">
+      <h2 class="common-title">Report Card</h2>
+    </div>
+    <div class="clear"></div>
+    <div class="lst-popular-project clearfix">
+      #{paginate.list items:results, as:'result'}
+        <div class="grid_3">
+          <div class="project-short sml-thumb" style="height: 460px;">
+            <div class="top-project-info">
+              <div class="content-info-short clearfix">
+                <a href="@{web.ReportCardWeb.get(result.DepartmentID)}"><img src="${result.Photo}"></a>
+                <div class="wrap-short-detail">
+                <h3 class="rs acticle-title">${result.Head}</h3>
+                <p class="rs tiny-desc">${result.DepartmentName}</p>
+                <p style="color: #57c8f1; font-size: 1.2em; line-height: .8em;">Total Received: <strong>${result.Received}</strong></p>
+	              <p style="color: #57c8f1; font-size: 1.2em; line-height: .8em;">Total Resolved: <strong>${result.Resolved}</strong></p>
+	              <p style="color: #57c8f1; font-size: 1.2em; line-height: .8em;">In Progress: <strong>${result.InProgress}</strong></h4>
+	              <p style="color: #ec5843; font-size: 1.2em; line-height: .8em;">Total Delayed: <strong>${result.Delayed.format('#0.00')}%</strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      #{/paginate.list}
+    </div>
+  </div>
+</div>
+<!--end: .home-popular-project -->

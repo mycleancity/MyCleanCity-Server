@@ -1,0 +1,166 @@
+#{extends 'main.html' /}
+#{set title:'Artist' /}
+
+<div class="row">
+	<div class="col-sm-12">
+	    <section class="panel">
+	        <header class="panel-heading">
+	            Edit Artist
+	        </header>
+	        <div class="panel-body">
+	            #{form @web.ArtistWeb.update(), method:'POST', class:'form-horizontal bucket-form cmxform', id:'update-form', enctype:'multipart/form-data'}
+	              <input type="hidden" name="id" value="${artist.id}">
+	              <div class="form-group">
+	                  <label class="col-lg-3 control-label">Name</label>
+	                  <div class="col-lg-8">
+	                  	<input type="text" class="form-control" name="name" id="name" value="${artist.name}" required>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+                      <label class="col-lg-3 control-label">Email</label>
+                      <div class="col-lg-8">
+                          <input type="email" class="form-control" name="email" id="email" value="${artist.user.email}" required>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Password</label>
+                      <div class="col-lg-8">
+                          <input type="password" class="form-control" name="password" id="password">
+                          <p class="help-block">Leave it empty won't update password</p>
+                      </div>
+                  </div>
+	              <div class="form-group">
+	                  <label class="col-lg-3 control-label">Key</label>
+	                  <div class="col-lg-8">
+	                  	<input type="text" class="form-control" name="key" id="key" value="${artist.key}" disabled>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-lg-3 control-label">Facebook URL</label>
+	                  <div class="col-lg-8">
+	                      <input type="url" class="form-control" name="facebookURL" id="facebookURL" value="${artist.facebookURL}" required>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-lg-3 control-label">Facebook ID</label>
+	                  <div class="col-lg-8">
+	                      <input type="text" class="form-control" name="facebookID" id="facebookID" value="${artist.facebookID}" required disabled>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-lg-3 control-label">Facebook App ID</label>
+	                  <div class="col-lg-8">
+	                      <input type="text" class="form-control" name="facebookAppID" id="facebookAppID" value="${artist.facebookAppID}" required disabled>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-lg-3 control-label">Facebook App Secret</label>
+	                  <div class="col-lg-8">
+	                      <input type="text" class="form-control" name="facebookAppSecret" id="facebookAppSecret" value="${artist.facebookAppSecret}" required disabled>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-lg-3 control-label">Instagram URL</label>
+	                  <div class="col-lg-8">
+	                      <input type="url" class="form-control" name="instagramURL" id="instagramURL" value="${artist.instagramURL}" required>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-lg-3 control-label">Instagram ID</label>
+	                  <div class="col-lg-8">
+	                      <input type="text" class="form-control" name="instagramID" id="instagramID" value="${artist.instagramID}" required disabled>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-lg-3 control-label">Instagram App ID</label>
+	                  <div class="col-lg-8">
+	                      <input type="text" class="form-control" name="instagramAppID" id="instagramAppID" value="${artist.instagramAppID}" required disabled>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-lg-3 control-label">Instagram App Secret</label>
+	                  <div class="col-lg-8">
+	                      <input type="text" class="form-control" name="instagramAppSecret" id="instagramAppSecret" value="${artist.instagramAppSecret}" required disabled>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+                      <label class="col-lg-3 control-label">Splash Screen</label>
+                      <div class="col-lg-8">
+                        <input type="file" class="form-control" name="splash" id="splash">
+                        <p class="help-block">Recommended Size 2208 x 1242</p>
+                    	<p class="help-block"><img width="100" src="${artist.splash.url('200')}"></p>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">APNS Cert</label>
+                      <div class="col-lg-8">
+                        <input type="file" class="form-control" name="apnsCert" id="apnsCert" >
+                    	<p class="help-block">${artist.apnsCertName}</p>
+                      </div>
+                  </div>
+                  <div class="form-group">
+	                  <label class="col-lg-3 control-label">APNS Password</label>
+	                  <div class="col-lg-8">
+	                  	<input type="text" class="form-control" name="apnsPassword" id="apnsPassword" value="${artist.apnsPassword}">
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <div class="col-lg-offset-3 col-lg-8">
+	                      <button type="submit" class="btn btn-info">Update</button>
+	                  </div>
+	              </div>
+	            #{/form}
+	        </div>
+	    </section>
+	</div>
+</div>
+
+#{set 'moreScripts'}
+<script src="@{'/public/BucketAdmin/js/jquery.validate.min.js'}"></script>
+    <script>
+      var Script = function () {
+
+        $().ready(function() {
+          // validate signin form on keyup and submit
+          $("#update-form").validate({
+              rules: {
+                  name: {
+                      required: true
+                  },
+                  email: {
+                      required: true,
+                      email: true
+                  },
+                  password: {
+                      minlength: 4
+                  },
+                  facebookURL: {
+                      required: true
+                  },
+                  instagramURL: {
+                      required: true
+                  }
+              },
+              messages: {
+                  name: {
+                      required: "Please enter a name"
+                  },
+                  email: {
+                      required: "Please enter an email",
+                      email: "Please enter a valid email address"
+                  },
+                  password: {
+                      minlength: "Your password must be at least 4 characters long"
+                  },
+                  facebookURL: {
+                      required: "Please enter a facebook url"
+                  },
+                  instagramURL: {
+                      required: "Please enter a instagram url"
+                  }
+              }
+          });
+        });
+      }();
+    </script>
+#{/set}

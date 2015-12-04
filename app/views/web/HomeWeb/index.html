@@ -1,0 +1,404 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+#{set 'moreStyles'}
+<style>
+.lines2 {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   line-height: 16px;     /* fallback */
+   max-height: 32px;      /* fallback */
+   -webkit-line-clamp: 2; /* number of lines to show */
+   -webkit-box-orient: vertical;
+}
+
+.lines3 {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   line-height: 16px;     /* fallback */
+   max-height: 48px;      /* fallback */
+   -webkit-line-clamp: 3; /* number of lines to show */
+   -webkit-box-orient: vertical;
+}
+</style>
+#{/set}
+
+<div id="home-slider">
+  <div class="md-slide-items md-slider" id="md-slider-1" data-thumb-width="105" data-thumb-height="70">
+  	#{list items:banners, as:'banner'}
+  		<div class="md-slide-item slide-0" data-timeout="6000">
+	      <div class="md-mainimg"><img src="${banner.photo.url('1200')}" alt=""></div>
+	    </div>
+    #{/list}
+  </div>
+</div>
+<!--end: #home-slider -->
+<div class="home-feature-category">
+  <div class="container_12 clearfix">
+    <div class="grid_4 left-lst-category">
+      <div class="wrap-lst-category">
+        <h3 class="title-welcome rs">Resident Complaints</h3>
+        <p class="description rs">Help identify local issues in your neighborhood. Provide accurate description so that local authorities could resolve them efficiently</p>
+        <nav class="lst-category">
+          <ul class="rs nav nav-category">
+            #{paginate.list items:complaintCategories, as:'category'}
+              <li #{if featuredComplaintCategory?.id == category?.id}class="active"#{/if} >
+                <a href="@{web.ComplaintWeb.index(category?.id)}">
+                ${category.name}
+                <i class="icon iPlugGray"></i>
+                </a>
+              </li>
+            #{/paginate.list}
+            </li>
+          </ul>
+          <p class="rs view-all-category">
+            <a href="@{web.ComplaintWeb.index()}" class="be-fc-orange">+ View all categories</a>
+          </p>
+        </nav>
+        <!--end: .lst-category -->
+      </div>
+    </div>
+    <!--end: .left-lst-category -->
+    <div class="grid_8 marked-category">
+      <div class="wrap-title clearfix">
+        <h2 class="title-mark rs">Staff Picks: <span class="fc-orange">${featuredComplaintCategory.name}</span></h2>
+        <!-- <a href="category.html" class="count-project be-fc-orange">See all <span class="fw-b">24</span> complaints</a> -->
+      </div>
+      <div class="box-marked-project project-short">
+        <div class="top-project-info">
+          <div class="content-info-short clearfix">
+            <a href="@{web.ComplaintWeb.get(featured?.id)}" class="thumb-img">
+            <img src="${featured?.photo?.thumbnail()}">
+            </a>
+            <div class="wrap-short-detail">
+              <h3 class="rs acticle-title"><a class="be-fc-orange" href="@{web.ComplaintWeb.get(featured?.id)}">${featured?.caption}</a></h3>
+              <p class="rs tiny-desc">by <a href="#" class="fw-b fc-gray be-fc-orange">${featured?.log?.createdBy?.name}</a> at <span class="fw-b fc-gray lines2">${featured?.address}</span></p>
+              <p class="rs title-description">${featured?.story}</p>
+            </div>
+            <p class="rs clearfix comment-view">
+              <a href="#" class="fc-gray be-fc-orange">${featured?.commentCount} comments</a>
+              <!-- <span class="sep">|</span>
+              <a href="#" class="fc-gray be-fc-orange">378 views</a> -->
+            </p>
+          </div>
+        </div>
+        <!--end: .top-project-info -->
+        <div class="bottom-project-info clearfix">
+            <div class="project-progress sys_circle_progress" data-percent="100" style="opacity: 0; width: 1px; margin: 10px 0"></div>
+            <!--
+          	#{if featured?.slaProceedLeftoverPercent > 100}
+	      	  	<div class="project-progress sys_circle_progress" data-percent="100">
+	        	  <div class="sys_holder_sector"></div>
+	      	  	</div>
+	      	#{/if}
+	      	#{else}
+	      	  	<div class="project-progress sys_circle_progress" data-percent="${featured?.slaProceedLeftoverPercent}">
+	        	  <div class="sys_holder_sector"></div>
+	      	  	</div>
+	      	#{/else}
+	      	-->
+          	<!--
+          #{if featured?.status == 2}
+          	<div class="project-progress sys_circle_progress" data-percent="${featured?.slaProceedLeftoverPercent}">
+            	<div class="sys_holder_sector"></div>
+          	</div>
+          #{/if}
+          #{else}
+          	<div class="project-progress sys_circle_progress" data-percent="0">
+            	<div class="sys_holder_sector"></div>
+          	</div>
+          #{/else}
+          -->
+          <div class="group-fee clearfix">
+            <div class="fee-item">
+              <p class="rs lbl">Date</p>
+              <span class="val">${featured?.log?.createdAt?.format('dd MMM yyyy')}</span>
+            </div>
+            <div class="sep"></div>
+            <div class="fee-item">
+              <p class="rs lbl">Status</p>
+              <span class="val">${featured?.statusDisplayShort}</span>
+            </div>
+            <div class="sep"></div>
+            <div class="fee-item">
+              <p class="rs lbl">Days Left</p>
+              <span class="val">
+                ${featured?.slaProceedLeftoverDays}
+                <!-- 
+              	#{if featured?.status == 1}
+              	${featured?.slaAcceptLeftoverDays}
+              	#{/if}
+              	#{elseif featured?.status == 2}
+              	${featured?.slaProceedLeftoverDays}
+              	#{/elseif}
+              	#{else}
+              	0
+              	#{/else}
+              	-->
+              </span>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+    <!--end: .marked-category -->
+    <div class="clear"></div>
+  </div>
+</div>
+<!--end: .home-feature-category -->
+<div class="home-popular-project">
+  <div class="container_12">
+    <div class="grid_12 wrap-title">
+      <h2 class="common-title">Latest Complaints</h2>
+      <a class="be-fc-orange" href="@{web.ComplaintWeb.index()}">View all</a>
+    </div>
+    <div class="clear"></div>
+    <div class="lst-popular-project clearfix">
+      #{paginate.list items:complaints, as:'complaint'}
+        <div class="grid_3">
+          <div class="project-short sml-thumb">
+            <div class="top-project-info" style="height: 300px !important;">
+              <div class="content-info-short clearfix">
+                <a href="@{web.ComplaintWeb.get(complaint.id)}" class="thumb-img">
+                  <img src="${complaint.photo?.thumbnail()}">
+                </a>
+                <div class="wrap-short-detail">
+                  <h3 class="rs acticle-title"><a class="be-fc-orange" href="@{web.ComplaintWeb.get(complaint.id)}">${complaint.caption}</a></h3>
+                  <p class="rs tiny-desc">by <a href="#" class="fw-b fc-gray be-fc-orange">${complaint.log.createdBy.name}</a></p>
+                  <p class="rs title-description lines3" style="padding-bottom: 0px !important; height: 200px;">${complaint.story}</p><br/>
+                  <p class="rs project-location lines2" style="padding-bottom: 0px !important;">
+                    <i class="icon iLocation"></i>
+                    ${complaint.address}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="bottom-project-info clearfix">
+              <div class="line-progress">
+                <div class="bg-progress">
+                  <span  style="width: ${complaint.slaProceedLeftoverPercent}%"></span>
+                </div>
+              </div>
+              <div class="group-fee clearfix">
+                <div class="fee-item">
+                  <p class="rs lbl">Status</p>
+                  <span class="val">${complaint.statusDisplayShort}</span>
+                </div>
+                <div class="sep"></div>
+                <div class="fee-item">
+                  <p class="rs lbl">Days Left</p>
+                  <span class="val">
+                  	${complaint.slaProceedLeftoverDays}
+                  	<!-- 
+                  	#{if complaint.status == 1}
+	            	${complaint.slaAcceptLeftoverDays}
+	            	#{/if}
+	            	#{elseif featured?.status == 2}
+	            	${complaint.slaProceedLeftoverDays}
+	            	#{/elseif}
+	            	#{else}
+	            	0
+	            	#{/else}
+	            	-->
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      #{/paginate.list}
+    </div>
+  </div>
+</div>
+<!--end: .home-popular-project -->
+
+<div class="home-feature-category">
+  <div class="container_12 clearfix">
+    <div class="grid_4 left-lst-category">
+      <div class="wrap-lst-category">
+        <h3 class="title-welcome rs">Catch the Culprit</h3>
+        <p class="description rs">Be the ears and eyes of MBPJ. Help us nab individuals or corporations that dirtying the city or create problems in your neighborhood</p>
+        <nav class="lst-category">
+          <ul class="rs nav nav-category">
+            #{paginate.list items:culpritCategories, as:'category'}
+              <li #{if featuredCulpritCategory.id == category.id}class="active"#{/if} >
+                <a href="@{web.CulpritWeb.index(category.id)}">
+                ${category.name}
+                <i class="icon iPlugGray"></i>
+                </a>
+              </li>
+            #{/paginate.list}
+            </li>
+          </ul>
+          <p class="rs view-all-category">
+            <a href="@{web.CulpritWeb.index()}" class="be-fc-orange">+ View all categories</a>
+          </p>
+        </nav>
+        <!--end: .lst-category -->
+      </div>
+    </div>
+    <!--end: .left-lst-category -->
+    <div class="grid_8 marked-category">
+      <div class="wrap-title clearfix">
+        <h2 class="title-mark rs">Staff Picks: <span class="fc-orange">${featuredCulpritCategory.name}</span></h2>
+        <!-- <a href="category.html" class="count-project be-fc-orange">See all <span class="fw-b">24</span> complaints</a> -->
+      </div>
+      <div class="box-marked-project project-short">
+        <div class="top-project-info">
+          <div class="content-info-short clearfix">
+            <a href="@{web.CulpritWeb.get(featuredCulprit?.id)}" class="thumb-img">
+            <img src="${featuredCulprit?.photo?.thumbnail()}">
+            </a>
+            <div class="wrap-short-detail">
+              <p class="rs tiny-desc">by <a href="#" class="fw-b fc-gray be-fc-orange">${featuredCulprit?.log?.createdBy?.name}</a> at <span class="fw-b fc-gray">${featuredCulprit?.address}</span></p>
+              <p class="rs title-description">${featuredCulprit?.story}</p>
+            </div>
+            <p class="rs clearfix comment-view">
+              <a href="#" class="fc-gray be-fc-orange">${featuredCulprit?.commentCount} comments</a>
+              <!-- <span class="sep">|</span>
+              <a href="#" class="fc-gray be-fc-orange">378 views</a> -->
+            </p>
+          </div>
+        </div>
+        <!--end: .top-project-info -->
+      </div>
+    </div>
+    <!--end: .marked-category -->
+    <div class="clear"></div>
+  </div>
+</div>
+<!--end: .home-feature-category -->
+
+<!-- <div class="home-discover-friends">
+  <div class="container_12">
+    <div class="grid_9">
+      <h2 class="rs title">Vestibulum tristique, purus eget euismod vulputate, nisl erat suscipit mi!</h2>
+      <p class="rs description">Duis placerat malesuada sapien, eu consequat mauris vestibulum vitae. Aliquam fermentum lorem ut leo ultricies semper. In sed ligula massa, vitae elementum mauris.</p>
+    </div>
+    <div class="grid_3 ta-r">
+      <a class="btn bigger btn-red" href="#">Learn more</a>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div> -->
+<div class="home-culprit-project">
+  <div class="container_12">
+    <div class="grid_12 wrap-title">
+      <h2 class="common-title">Latest Culprits</h2>
+      <a class="be-fc-orange" href="@{web.CulpritWeb.index()}">View all</a>
+    </div>
+    <div class="clear"></div>
+    <div class="lst-popular-project clearfix">
+      #{paginate.list items:culprits, as:'culprit'}
+        <div class="grid_3">
+          <div class="project-short sml-thumb">
+            <div class="top-project-info" style="height: 280px !important;">
+              <div class="content-info-short clearfix">
+                <a href="@{web.CulpritWeb.get(culprit.id)}" class="thumb-img">
+                  <img src="${culprit.photo.thumbnail()}">
+                </a>
+                <div class="wrap-short-detail">
+                  <p class="rs tiny-desc">by <a href="#" class="fw-b fc-gray be-fc-orange">${culprit.log.createdBy.name}</a></p>
+                  <p class="rs title-description lines3" style="padding-bottom: 0px !important; height: 200px;">${culprit.story}</p></br>
+                  <p class="rs project-location lines2" style="padding-bottom: 0px !important;">
+                    <i class="icon iLocation"></i>
+                    ${culprit.address}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      #{/paginate.list}
+    </div>
+  </div>
+</div>
+
+<div class="home-feature-category">
+  <div class="container_12 clearfix">
+    <div class="grid_4 left-lst-category">
+      <div class="wrap-lst-category">
+        <h3 class="title-welcome rs">Resident ThinkBox</h3>
+        <p class="description rs">Think of an idea, gather support and present your idea at the City Council on how to make the city a livable place for all.</p>
+        <nav class="lst-category">
+          <ul class="rs nav nav-category">
+            #{paginate.list items:thinkBoxCategories, as:'category'}
+              <li #{if featuredThinkBoxCategory.id == category.id}class="active"#{/if} >
+                <a href="@{web.ThinkBoxWeb.index(category.id)}">
+                ${category.name}
+                <i class="icon iPlugGray"></i>
+                </a>
+              </li>
+            #{/paginate.list}
+            </li>
+          </ul>
+          <p class="rs view-all-category">
+            <a href="@{web.ThinkBoxWeb.index()}" class="be-fc-orange">+ View all categories</a>
+          </p>
+        </nav>
+        <!--end: .lst-category -->
+      </div>
+    </div>
+    <!--end: .left-lst-category -->
+    <div class="grid_8 marked-category">
+      <div class="wrap-title clearfix">
+        <h2 class="title-mark rs">Staff Picks: <span class="fc-orange">${featuredThinkBoxCategory.name}</span></h2>
+        <!-- <a href="category.html" class="count-project be-fc-orange">See all <span class="fw-b">24</span> complaints</a> -->
+      </div>
+      <div class="box-marked-project project-short">
+        <div class="top-project-info">
+          <div class="content-info-short clearfix">
+            <a href="@{web.ThinkBoxWeb.get(featuredThinkBox?.id)}" class="thumb-img">
+            <img src="${featuredThinkBox?.photo?.thumbnail()}">
+            </a>
+            <div class="wrap-short-detail">
+              <p class="rs tiny-desc">by <a href="#" class="fw-b fc-gray be-fc-orange">${featuredThinkBox?.contactName}</a></p>
+              <p class="rs title-description">${featuredThinkBox?.story}</p>
+            </div>
+            <p class="rs clearfix comment-view">
+              <a href="#" class="fc-gray be-fc-orange">${featuredThinkBox?.commentCount} comments</a>
+              <!-- <span class="sep">|</span>
+              <a href="#" class="fc-gray be-fc-orange">378 views</a> -->
+            </p>
+          </div>
+        </div>
+        <!--end: .top-project-info -->
+      </div>
+    </div>
+    <!--end: .marked-category -->
+    <div class="clear"></div>
+  </div>
+</div>
+
+<div class="home-culprit-project">
+  <div class="container_12">
+    <div class="grid_12 wrap-title">
+      <h2 class="common-title">Latest ThinkBox</h2>
+      <a class="be-fc-orange" href="@{web.ThinkBoxWeb.index()}">View all</a>
+    </div>
+    <div class="clear"></div>
+    <div class="lst-popular-project clearfix">
+      #{paginate.list items:thinkBoxes, as:'thinkbox'}
+        <div class="grid_3">
+          <div class="project-short sml-thumb">
+            <div class="top-project-info" style="height: 280px !important;">
+              <div class="content-info-short clearfix">
+                <a href="@{web.ThinkBoxWeb.get(thinkbox.id)}" class="thumb-img">
+                  <img src="${thinkbox.photo.thumbnail()}">
+                </a>
+                <div class="wrap-short-detail">
+                  <p class="rs tiny-desc">by <a href="#" class="fw-b fc-gray be-fc-orange">${thinkbox.contactName}</a></p>
+                  <p class="rs title-description lines3" style="padding-bottom: 0px !important; height: 200px;">${thinkbox.story}</p></br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      #{/paginate.list}
+    </div>
+  </div>
+</div>
+<!--end: .home-culprit-project -->

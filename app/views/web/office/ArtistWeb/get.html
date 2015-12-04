@@ -1,0 +1,167 @@
+#{extends 'main.html' /}
+#{set title:'Artist' /}
+
+<div class="row">
+	<div class="col-sm-12">
+	    <section class="panel">
+	        <header class="panel-heading">
+	            Artist
+	        </header>
+	        <div class="panel-body">
+	            #{form @web.ArtistWeb.edit(), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+	              <input type="hidden" name="id" value="${artist.id}">
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Name</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${artist.name}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Email</label>
+	                  <div class="col-sm-8">
+	                      <p class="control-label text-left">${artist.user.email}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Key</label>
+	                  <div class="col-sm-8">
+	                  	<p class="control-label text-left">${artist.key}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Facebook URL</label>
+	                  <div class="col-sm-8">
+	                  	  <a href="${artist.facebookURL}" target="_blank"><p class="control-label text-left text-info">${artist.facebookURL}</p></a>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Facebook Configured</label>
+	                  <div class="col-sm-8">
+	                      <p class="control-label text-left">
+	                        ${artist.facebookConfigured}
+	                      	#{if artist.facebookConfigured}
+	                      	 | <a href="@{web.ArtistWeb.resetFacebook(artist.id)}" class="text-primary">reset</a>
+	                      	#{/if}
+	                      </p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Facebook ID</label>
+	                  <div class="col-sm-8">
+	                      <p class="control-label text-left">${artist.facebookID}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Facebook App ID</label>
+	                  <div class="col-sm-8">
+	                      <p class="control-label text-left">${artist.facebookAppID}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Facebook App Secret</label>
+	                  <div class="col-sm-8">
+	                      <p class="control-label text-left">${artist.facebookAppSecret}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Instagram Configured</label>
+	                  <div class="col-sm-8">
+	                      <p class="control-label text-left">
+	                      	${artist.instagramConfigured}
+	                      	#{if artist.instagramConfigured}
+	                      	 | <a href="@{web.ArtistWeb.resetInstagram(artist.id)}" class="text-primary">reset</a>
+	                      	#{/if}
+	                      </p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Instagram URL</label>
+	                  <div class="col-sm-8">
+	                  	<a href="${artist.instagramURL}" target="_blank"><p class="control-label text-left text-info">${artist.instagramURL}</p></a>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Instagram ID</label>
+	                  <div class="col-sm-8">
+	                      <p class="control-label text-left">${artist.instagramID}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Instagram App ID</label>
+	                  <div class="col-sm-8">
+	                      <p class="control-label text-left">${artist.instagramAppID}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Instagram App Secret</label>
+	                  <div class="col-sm-8">
+	                      <p class="control-label text-left">${artist.instagramAppSecret}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">Splash Screen</label>
+	                  <div class="col-sm-8">
+	                      <div class="control-label text-left">
+	                      	<img width="100" src="${artist.splash.url('200')}">
+	                      </div>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">APNS Cert</label>
+	                  <div class="col-sm-8">
+	                      <p class="control-label text-left">${artist.apnsCertName}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <label class="col-sm-3 control-label">APNS Password</label>
+	                  <div class="col-sm-8">
+	                      <p class="control-label text-left">${artist.apnsPassword}</p>
+	                  </div>
+	              </div>
+	              <div class="form-group">
+	                  <div class="col-sm-offset-3 col-sm-8">
+	                      <button type="submit" class="btn btn-info">Edit</button>
+	                  </div>
+	              </div>
+	            #{/form}
+	        </div>
+	    </section>
+	</div>
+	<div class="col-sm-12">
+	    <section class="panel">
+	        <header class="panel-heading">
+	            Post Callback Logs
+	        </header>
+	        <div class="panel-body">
+	            <section id="no-more-tables">
+                    <table class="table table-hover general-table table-condensed cf">
+                        <thead class="cf">
+                        <tr>
+                            <th>#</th>
+                            <th>Type</th>
+                            <th>Received</th>
+                            <th>Item</th>
+                            <th>Verb</th>
+                            <th>Json</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #{paginate.list items:logs, as:'log' }
+                        <tr>
+                            <td data-title="#">${log_index}</td>
+                            <td data-title="Type">${log.type}</td>
+                            <td data-title="Received">${log.createdAt.format('dd/MMM/yyyy hh:mm:ss a')}</td>
+                            <td data-title="Item">${log.item}</td>
+                            <td data-title="Verb">${log.verb}</td>
+                            <td data-title="Json" class="text-wrap">${log.json}</td>
+                        </tr>
+                        #{/paginate.list}
+                        </tbody>
+                    </table>
+                    #{paginate.summary items:logs /}
+                    #{paginate.controls items:logs /}
+                </section>
+	        </div>
+	    </section>
+	</div>
+</div>

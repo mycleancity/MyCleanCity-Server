@@ -1,0 +1,132 @@
+#{extends 'office.html' /}
+#{set title:'ThinkBox' /}
+
+<div class="row">
+  <div class="col-sm-12">
+    <section class="panel">
+      <header class="panel-heading">
+        ThinkBox
+      </header>
+      <div class="panel-body">
+      #{form @web.office.ThinkBoxWeb.edit(), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+        <input type="hidden" name="id" value="${thinkbox.id}">
+
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Photo</label>
+
+          <div class="col-lg-8">
+            <div class="control-label text-left">
+              <img width="300" src="${thinkbox.photo?.url('600')}">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Title</label>
+
+          <div class="col-sm-8">
+            <p class="control-label text-left">${thinkbox.caption}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Description</label>
+
+          <div class="col-sm-8">
+            <p class="control-label text-left">${thinkbox.story}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Category</label>
+
+          <div class="col-sm-8">
+            <p class="control-label text-left">${thinkbox.category.name}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Feasibility</label>
+          <div class="col-sm-8">
+            <p class="control-label text-left">
+              #{if thinkbox.feasibility == 1}
+                Can be implemented immediately
+              #{/if}
+              #{elseif thinkbox.feasibility == 2}
+                Can be implemented within 1 to 2 Years
+              #{/elseif}
+              #{else}
+                Requires more than 3 Years
+              #{/else}
+            </p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Status</label>
+
+          <div class="col-sm-8">
+            <p class="control-label text-left">${thinkbox.statusDisplay}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Date</label>
+
+          <div class="col-sm-8">
+            <p class="control-label text-left">${thinkbox.log.createdAt.format('hh:mm a, dd MMM yyyy')}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Contact Name</label>
+
+          <div class="col-sm-8">
+            <p class="control-label text-left">${thinkbox.contactName}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Contact Email</label>
+
+          <div class="col-sm-8">
+            <p class="control-label text-left">${thinkbox.contactEmail}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Contact No</label>
+
+          <div class="col-sm-8">
+            <p class="control-label text-left">${thinkbox.contactNo}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Zone</label>
+
+          <div class="col-sm-8">
+            <p class="control-label text-left">${thinkbox.zone?.name}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-8">
+            <button type="submit" class="btn btn-info">Edit</button>
+              #{if thinkbox.status == 0}
+                <a href="@{web.office.ThinkBoxWeb.approve(thinkbox.id)}"
+                   class="btn btn-info">Approve</a>
+                <a href="@{web.office.ThinkBoxWeb.delete(thinkbox.id)}"
+                   onclick="return confirm('Are you sure you want to delete this item?');"
+                   class="btn btn-danger">Delete</a>
+              #{/if}
+              #{else}
+              	<a href="@{web.office.ThinkBoxWeb.select(thinkbox.id)}"
+                   onclick="return confirm('Are you sure you want to select this item?');"
+                   class="btn btn-success">Select</a>
+                <a href="@{web.office.ThinkBoxWeb.present(thinkbox.id)}"
+                   onclick="return confirm('Are you sure you want to present this item?');"
+                   class="btn btn-info">Present</a>
+                <a href="@{web.office.ThinkBoxWeb.pick(thinkbox.id)}"
+                   onclick="return confirm('Are you sure you want to pick this item?');"
+                   class="btn btn-warning">Pick</a>
+                <a href="@{web.office.ThinkBoxWeb.delete(thinkbox.id)}"
+                   onclick="return confirm('Are you sure you want to delete this item?');"
+                   class="btn btn-danger">Delete</a>
+              #{/else}
+          </div>
+        </div>
+      #{/form}
+      </div>
+    </section>
+  </div>
+</div>

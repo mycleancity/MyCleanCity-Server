@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="${_response_encoding}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Gorgeous">
+    <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+
+    <title>Login</title>
+
+    <!--Core CSS -->
+    <link href="@{'/public/BucketAdmin/bs3/css/bootstrap.min.css'}" rel="stylesheet">
+    <link href="@{'/public/BucketAdmin/css/bootstrap-reset.css'}" rel="stylesheet">
+    <link href="@{'/public/BucketAdmin/font-awesome/css/font-awesome.css'}" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="@{'/public/BucketAdmin/css/style.css'}" rel="stylesheet">
+    <link href="@{'/public/BucketAdmin/css/style-responsive.css'}" rel="stylesheet" />
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]>
+    <script src="@{'/public/BucketAdmin/js/ie8-responsive-file-warning.js'}"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+  <body class="login-body">
+
+    <div class="container">
+
+      #{form @Security.authenticate(), method:'POST', class:'cmxform form-signin', id:'signin-form'} 
+        <h2 class="form-signin-heading">sign in now</h2>
+        <div class="login-wrap">
+            <div class="user-login-info">
+                <div class="form-group ">
+                  <input name="email" id="email" type="email" class="form-control" placeholder="Email" required>
+                </div>
+                <div class="form-group ">
+                  <input name="password" id="password" type="password" class="form-control" placeholder="Password" required>
+                </div>
+            </div>
+            <label class="checkbox">
+                <input name="remember" type="checkbox" value="true"> Remember me
+                <span class="pull-right">
+                    <a data-toggle="modal" href="#myModal"> Forgot Password?</a>
+                </span>
+            </label>
+            <button class="btn btn-lg btn-login btn-block" type="submit">Sign in</button>
+            #{if flash.error}
+            <div class="text-center text-danger">&{flash.error}</div>
+            #{/if}
+        </div>
+        #{/form}
+
+        #{form @Security.authenticate(), method:'POST', class:'cmxform form-signin', id:'signin-form'} 
+        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Forgot Password ?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Enter your e-mail address below to reset your password.</p>
+                        <input type="email" name="email" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+                        <button class="btn btn-success" type="button">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        #{/form}
+    </div>
+
+
+
+    <!-- Placed js at the end of the document so the pages load faster -->
+
+    <!--Core js-->
+    <script src="@{'/public/BucketAdmin/js/jquery.js'}"></script>
+    <script src="@{'/public/BucketAdmin/bs3/js/bootstrap.min.js'}"></script>
+    <script src="@{'/public/BucketAdmin/js/jquery.validate.min.js'}"></script>
+    <script>
+      var Script = function () {
+
+        $().ready(function() {
+          // validate signin form on keyup and submit
+          $("#signin-form").validate({
+              rules: {
+                  email: {
+                      required: true,
+                      email: true
+                  },
+                  password: {
+                      required: true,
+                      minlength: 5
+                  }
+              },
+              messages: {
+                  email: {
+                      required: "Please enter a email",
+                      email: "Please enter a valid email address"
+                  },
+                  password: {
+                      required: "Please provide a password",
+                      minlength: "Your password must be at least 5 characters long"
+                  }
+              }
+          });
+        });
+      }();
+    </script>
+
+  </body>
+</html>

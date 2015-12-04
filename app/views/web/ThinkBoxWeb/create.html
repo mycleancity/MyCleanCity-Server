@@ -1,0 +1,120 @@
+#{extends 'main.html' /}
+#{set title:'Submit Idea' /}
+#{set 'moreStyles'}
+
+  <style type="text/css">
+    #map-canvas {
+      height: 400px;
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #map-canvas img {
+      max-width: none !important;
+    }
+
+    .controls {
+      margin-top: 16px;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      height: 32px;
+      outline: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    #address {
+      background-color: #fff;
+      font-size: 15px;
+      font-weight: 300;
+      margin-left: 12px;
+      margin-top: 40px;
+      padding: 0 11px 0 13px;
+      text-overflow: ellipsis;
+      width: 80%;
+    }
+
+    #address:focus {
+      border-color: #4d90fe;
+    }
+  </style>
+#{/set}
+
+<div class="container_12">
+  <div class="how-it-work">
+    <div class="grid_12 short-introduce">
+      <h3 class="rs title"><span class="fc-black">Submit</span> Idea</h3>
+      <div class="box-introduce">
+        <div class="form form-profile">
+          <form action="@{web.ThinkBoxWeb.create()}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <div class="row-item clearfix">
+              <label class="lbl" for="name">Name:</label>
+              <div class="val">
+                <input class="txt" type="text" id="name" name="name" required>
+              </div>
+            </div>
+            <div class="row-item clearfix">
+              <label class="lbl" for="email">Email:</label>
+              <div class="val">
+                <input class="txt" type="email" id="email" name="email" required>
+              </div>
+            </div>
+            <div class="row-item clearfix">
+              <label class="lbl" for="mobile">Mobile:</label>
+              <div class="val">
+                <input class="txt" type="text" id="mobile" name="mobile" required>
+              </div>
+            </div>
+            <div class="row-item clearfix">
+              <label class="lbl" for="category">Category of ThinkBox:</label>
+              <div class="val">
+                #{select 'category', items:categories, valueProperty:'id', labelProperty:'name', value:category, class:'txt select'/}
+              </div>
+            </div>
+            <div class="row-item clearfix">
+              <label class="lbl" for="zone">Residential Zone:</label>
+              <div class="val">
+                #{select 'zone', items:zones, valueProperty:'id', labelProperty:'fullname', value:zone, class:'txt select'/}
+              </div>
+            </div>
+            <div class="row-item clearfix">
+              <label class="lbl" for="zone">Feasibility:</label>
+              <div class="val">
+              	<select class="txt select" id="feasibility" name="feasibility">
+				  <option value="1">Can be implemented immediately</option>
+				  <option value="2">Can be implemented within 1 to 2 Years</option>
+				  <option value="3">Requires more than 3 Years</option>
+				</select>
+              </div>
+            </div>
+            <div class="row-item clearfix">
+              <label class="lbl" for="title">Title:</label>
+              <div class="val">
+                <input class="txt" type="text" id="title" name="title" required>
+              </div>
+            </div>
+            <div class="row-item clearfix">
+              <label class="lbl" for="description">Description:</label>
+              <div class="val">
+                <textarea class="txt fill-width" name="description" id="description" cols="30" rows="10" required></textarea>
+                <p class="rs description-input">We suggest a short description. If it’s 300 characters or less it’ll look great.</p>
+              </div>
+            </div>
+            <div class="row-item clearfix">
+              <label class="lbl" for="photo">Upload Your Campaign Photo (Image Size 800 x 800):</label>
+              <div class="val">
+                <input class="txt" type="file" id="photo" name="photo" required>
+              </div>
+            </div>
+            <p class="wrap-btn-submit rs ta-r">
+              <label class="lbl">Please double check the accuracy of your content before submission</label><br/>
+              <button class="btn btn-red btn-submit-all">Submit</button>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>

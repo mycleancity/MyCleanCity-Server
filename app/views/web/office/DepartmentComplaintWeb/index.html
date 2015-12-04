@@ -1,0 +1,85 @@
+#{extends 'office.html' /}
+#{set title:'Complaint' /}
+
+<div class="row">
+    <div class="col-sm-4">
+        <section class="panel">
+            <header class="panel-heading">
+                Search Complaint
+            </header>
+            <div class="panel-body">
+                #{form @web.office.DepartmentComplaintWeb.index(), method:'GET', class:'form-horizontal bucket-form cmxform', id:'create-form'}
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Keyword</label>
+                      <div class="col-lg-8">
+                          <input type="text" class="form-control" name="keyword" id="keyword" value="${keyword}">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">Status</label>
+                      <div class="col-lg-8">
+                          <select class="form-control input-sm m-bot15" name="status">
+                          	<option value="" #{if status == ''}selected#{/if}>All</option>
+                          	<option value="1" #{if status == 1}selected#{/if}>Pending</option>
+                          	<option value="2" #{if status == 2}selected#{/if}>In Progress</option>
+                          	<option value="3" #{if status == 3}selected#{/if}>Invalid</option>
+                          	<option value="4" #{if status == 4}selected#{/if}>Resolved</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="col-lg-offset-3 col-lg-8">
+                          <button type="submit" class="btn btn-info">Search</button>
+                          <a href="@{web.office.ComplaintWeb.index()}" class="btn btn-danger">Reset</a>
+                      </div>
+                  </div>
+                #{/form}
+            </div>
+        </section>
+    </div>
+    <div class="col-sm-8">
+        <section class="panel">
+            <header class="panel-heading">
+                Complaints
+            </header>
+            <div class="panel-body">
+                <section id="no-more-tables">
+                    <table class="table table-hover general-table table-condensed cf">
+                        <thead class="cf">
+                        <tr>
+                            <th>#</th>
+                            <th>Photo</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #{paginate.list items:complaints, as:'complaint' }
+                        <tr class="clickable" onclick="document.location ='@{web.office.DepartmentComplaintWeb.get(complaint.id)}';">
+                        	<td data-title="#">${complaint_index}</td>
+                            <td data-title="Photo"><img width="50" src="${complaint.photo.url('100')}"></td>
+                            <td data-title="Title">${complaint.caption}</td>
+                            <td data-title="Category">${complaint.category.name}</td>
+                            <td data-title="Status">
+                            	${complaint.departmentStatusDisplay}
+                            	#{if complaint.status == 1}
+                            	<dt>${complaint.slaAcceptLeftoverDays}/${complaint.slaAcceptDays} days left</dt>
+                            	<p>${complaint.slaAcceptDate.format('hh:mm a, dd MMM yyyy')}</p>
+                            	#{/if}
+                            	#{if complaint.status == 2}
+                            	<dt>${complaint.slaProceedLeftoverDays}/${complaint.slaProceedDays} days left</dt>
+                            	<p>${complaint.slaProceedDate.format('hh:mm a, dd MMM yyyy')}</p>
+                            	#{/if}
+                            </td>
+                        </tr>
+                        #{/paginate.list}
+                        </tbody>
+                    </table>
+                    #{paginate.summary items:complaints /}
+                    #{paginate.controls items:complaints /}
+                </section>
+            </div>
+        </section>
+    </div>
+</div>
